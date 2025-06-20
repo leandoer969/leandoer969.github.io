@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type Skill = { name: string; level: number };
 type SkillData = Record<string, Skill[]>;
@@ -13,17 +13,17 @@ const SkillMatrix: React.FC<SkillMatrixProps> = ({ data }) => (
   <div className="grid gap-8 md:grid-cols-3">
     {Object.entries(data).map(([category, skills]) => (
       <div key={category}>
-        <h4 className="text-xl font-medium mb-2">{category}</h4>
+        <h4 className="mb-2 text-xl font-medium">{category}</h4>
         <ul className="space-y-2">
           {skills.map((s) => (
             <li key={s.name} className="flex items-center">
-              <span className="w-40 mx-auto text-right">{s.name}</span>
-              <div className="flex space-x-1 ml-4">
+              <span className="mx-auto w-40 text-right">{s.name}</span>
+              <div className="ml-4 flex space-x-1">
                 {Array.from({ length: MAX_LEVEL }).map((_, i) => (
                   <span
                     key={i}
-                    className={`w-3 h-3 rounded-full ${
-                      i < s.level ? "bg-indigo-600" : "bg-gray-300"
+                    className={`h-3 w-3 rounded-full ${
+                      i < s.level ? 'bg-indigo-600' : 'bg-gray-300'
                     }`}
                   />
                 ))}
