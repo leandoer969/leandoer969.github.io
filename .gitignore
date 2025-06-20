@@ -38,6 +38,3 @@ coverage/
 # Environment
 .env
 .env.*.local
-
-# ignore Vite's env types
-src/vite-env.d.ts
