@@ -8,6 +8,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    # Expose VITE_WIP to the build so the placeholder is shown
+    env:
+      VITE_WIP: 'true'
+
     steps:
       - uses: actions/checkout@v4
 
