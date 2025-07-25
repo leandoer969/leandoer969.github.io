@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         {/* Logo / Name */}
         <a href="#hero" className="text-2xl font-bold text-gray-900">
-          Onath
+          _onath_
         </a>
 
         {/* Desktop Links */}
