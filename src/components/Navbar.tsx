@@ -1,22 +1,54 @@
 // src/components/Navbar.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
 import { LinksList } from './ui/LinksList.tsx';
 
-const Navbar: React.FC = () => (
-  <nav className="fixed inset-x-0 top-0 z-50 bg-white/60 backdrop-blur-md">
-    <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-      {/* Logo / Name */}
-      <a href="#hero" className="text-2xl font-bold text-gray-900">
-        _onath__
-      </a>
+const Navbar: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-      {/* Desktop Links */}
-      <LinksList className="hidden space-x-8 font-medium text-gray-700 md:flex" />
+  // prevent body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.classList.toggle('overflow-hidden', isOpen);
+    return () => document.body.classList.remove('overflow-hidden');
+  }, [isOpen]);
 
-      {/* Mobile Links (static for now) */}
-      <LinksList className="flex flex-col space-y-4 font-medium text-gray-700 md:hidden" />
-    </div>
-  </nav>
-);
+  return (
+    <nav className="fixed inset-x-0 top-0 z-50 bg-white/60 backdrop-blur-md">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+        {/* Logo / Name */}
+        <a href="#hero" className="text-2xl font-bold text-gray-900">
+          _onath__
+        </a>
+
+        {/* Desktop Links */}
+        <LinksList className="hidden space-x-8 font-medium text-gray-700 md:flex" />
+
+        {/* Hamburger toggle (below md) */}
+        <button
+          className="text-gray-700 hover:text-gray-900 focus:outline-none md:hidden"
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+      </div>
+
+      {/* Mobile dropdown menu */}
+      {isOpen && (
+        <div
+          id="mobile-menu"
+          className="absolute inset-x-0 top-full bg-white/90 p-6 backdrop-blur-md md:hidden"
+        >
+          <LinksList
+            className="flex flex-col space-y-4 font-medium text-gray-700"
+            onClick={() => setIsOpen(false)}
+          />
+        </div>
+      )}
+    </nav>
+  );
+};
 
 export default Navbar;
