@@ -42,6 +42,9 @@
 /* 4. (Optional) Add global components/utilities here */
 @layer components {
   /* .btn, .card, etc. */
+  .navbar-glass {
+    @apply bg-white/60 backdrop-blur-md;
+  }
 }
 @layer utilities {
   /* custom utility classes */

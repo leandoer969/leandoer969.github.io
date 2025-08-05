@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
   }, [isOpen]);
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 bg-white/60 backdrop-blur-md">
+    <nav className="navbar-glass fixed inset-x-0 top-0 z-50">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         {/* Logo / Name */}
         <a href="#hero" className="text-2xl font-bold text-gray-900">
@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
       {isOpen && (
         <div
           id="mobile-menu"
-          className="absolute inset-x-0 top-full bg-white/90 p-6 backdrop-blur-md md:hidden"
+          className="relative inset-x-0 top-full p-6 md:hidden"
         >
           <LinksList
             className="flex flex-col space-y-4 font-medium text-gray-700"
