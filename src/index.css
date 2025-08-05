@@ -1,28 +1,51 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import 'tailwindcss';
 
+/* 2. Declare your design tokens */
 @theme {
-  --font-inter: 'Inter', sans-serif;
-  --font-montserrat: 'Montserrat', sans-serif;
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Montserrat', sans-serif;
 
-  /* --font-weight-normal:     600;*/
+  /* Colors */
+  --color-bg: #ffffff;
+  --color-text: #1f2937;
+  /* …and so on… */
 }
 
-/* 3. (Optional) set the page’s default weight */
+/* 3. Override & extend base styles */
 @layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
   html {
-    /* if you want ALL text by default to be “normal” (400), you can: */
-    font-weight: var(--font-weight-normal);
-
-    background-color: transparent;
-
+    font-family: var(--font-sans);
+    line-height: 1.5;
     scroll-behavior: smooth;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  /* Accessible focus styles */
+  :focus-visible {
+    outline: 2px dashed var(--color-primary, #4f46e5);
+    outline-offset: 2px;
   }
 }
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* 4. (Optional) Add global components/utilities here */
+@layer components {
+  /* .btn, .card, etc. */
+  .navbar-glass {
+    @apply bg-white/60 backdrop-blur-md;
+  }
+}
+@layer utilities {
+  /* custom utility classes */
 }

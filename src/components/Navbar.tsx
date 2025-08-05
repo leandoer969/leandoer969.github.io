@@ -1,53 +1,52 @@
 // src/components/Navbar.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Menu, X } from 'lucide-react';
+import { LinksList } from './ui/LinksList.tsx';
 
 const Navbar: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // prevent body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.classList.toggle('overflow-hidden', isOpen);
+    return () => document.body.classList.remove('overflow-hidden');
+  }, [isOpen]);
+
   return (
-    <nav className="fixed left-0 top-0 z-50 w-full bg-white bg-opacity-70 backdrop-blur-md">
+    <nav className="navbar-glass fixed inset-x-0 top-0 z-50">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         {/* Logo / Name */}
         <a href="#hero" className="text-2xl font-bold text-gray-900">
-          Onath
+          _onath__
         </a>
 
         {/* Desktop Links */}
-        <ul className="hidden space-x-8 text-gray-700 md:flex">
-          <li>
-            <a href="#hero" className="transition-colors hover:text-gray-900">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="#cv" className="transition-colors hover:text-gray-900">
-              CV
-            </a>
-          </li>
-          <li>
-            <a
-              href="#projects"
-              className="transition-colors hover:text-gray-900"
-            >
-              Projects
-            </a>
-          </li>
-          <li>
-            <a
-              href="#ongoings"
-              className="transition-colors hover:text-gray-900"
-            >
-              Ongoings
-            </a>
-          </li>
-          <li>
-            <a
-              href="#cool-stuff"
-              className="transition-colors hover:text-gray-900"
-            >
-              Cool Stuff
-            </a>
-          </li>
-        </ul>
+        <LinksList className="hidden space-x-8 font-medium text-gray-700 md:flex" />
+
+        {/* Hamburger toggle (below md) */}
+        <button
+          className="text-gray-700 hover:text-gray-900 focus:outline-none md:hidden"
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
+
+      {/* Mobile dropdown menu */}
+      {isOpen && (
+        <div
+          id="mobile-menu"
+          className="relative inset-x-0 top-full p-6 md:hidden"
+        >
+          <LinksList
+            className="flex flex-col space-y-4 font-medium text-gray-700"
+            onClick={() => setIsOpen(false)}
+          />
+        </div>
+      )}
     </nav>
   );
 };
