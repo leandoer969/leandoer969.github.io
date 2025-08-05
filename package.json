@@ -12,7 +12,7 @@
     "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,css,json,md}\"",
     "type-check": "tsc --noEmit",
     "test": "vitest run",
-    "prepare": "husky",
+    "prepare": "husky init",
     "precommit": "npm run format:check && npm run lint && npm run type-check",
     "prepush": "npm test && npm run build"
   },
