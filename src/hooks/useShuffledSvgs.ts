@@ -1,5 +1,5 @@
 // src/hooks/useShuffledSvgs.ts
-import { useMemo } from 'react';
+import { useRef } from 'react';
 import type { ComponentType, SVGProps } from 'react';
 import SampleSVG from '../assets/sample.svg?react';
 import LoopRiseSVG from '../assets/flow/loop-rise.svg?react';
@@ -29,6 +29,7 @@ const SVGS = [
 ] as const satisfies readonly SvgComp[];
 
 export function useShuffledSvgs(): SvgComp[] {
-  // shuffles once per mount; if you want it stable across route changes, swap to useRef
-  return useMemo(() => shuffleArray([...SVGS]), []);
+  const ref = useRef<SvgComp[] | null>(null);
+  if (!ref.current) ref.current = shuffleArray([...SVGS]);
+  return ref.current;
 }
