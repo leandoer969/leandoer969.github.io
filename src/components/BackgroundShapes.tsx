@@ -2,21 +2,15 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 
-type BlobConfig = { top: string; left: string; size: string; color: string };
+type BlobConfig = { top: string; left: string; size: number; color: string };
 
 type BackgroundShapesProps = {
   speed?: number;
   amplitude?: { x: number; y: number };
-  colors?: string[]; // optional override palette
+  colors?: string[];
 };
 
-const DEFAULT_NUM_BLOBS = 12;
-const MOBILE_BLOB_THRESHOLD = 768;
-const MOBILE_BLOB_COUNT = 6;
-const LOW_DPR_THRESHOLD = 1.5;
-const LOW_DPR_BLOB_COUNT = 8;
-
-// token-based palette that adapts to light/dark automatically
+// token palette (light/dark via CSS vars)
 const tokenPalette = [
   'color-mix(in oklch, var(--color-primary) 28%, transparent)',
   'color-mix(in oklch, var(--color-people) 28%, transparent)',
@@ -24,9 +18,11 @@ const tokenPalette = [
   'color-mix(in oklch, var(--color-info) 24%, transparent)',
 ];
 
-const randBetween = (min: number, max: number) =>
-  Math.random() * (max - min) + min;
-const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+const DEFAULT_NUM_BLOBS = 12;
+const MOBILE_BLOB_THRESHOLD = 768;
+const MOBILE_BLOB_COUNT = 6;
+const LOW_DPR_THRESHOLD = 1.5;
+const LOW_DPR_BLOB_COUNT = 8;
 
 const useBlobCount = () => {
   const [count, setCount] = useState(() => {
@@ -54,6 +50,16 @@ const useBlobCount = () => {
 
   return count;
 };
+
+// Mulberry32 PRNG for deterministic layout per mount
+function mulberry32(seed: number) {
+  return function () {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
 const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   speed = 8,
@@ -92,16 +98,18 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   const blobCount = useBlobCount();
   const palette = colors ?? tokenPalette;
 
-  const blobs = useMemo<BlobConfig[]>(
-    () =>
-      Array.from({ length: blobCount }).map(() => ({
-        top: `${randBetween(-20, 80)}%`,
-        left: `${randBetween(-20, 80)}%`,
-        size: `${randBetween(150, 500)}px`,
-        color: pick(palette),
-      })),
-    [blobCount, palette]
-  );
+  const blobs = useMemo<BlobConfig[]>(() => {
+    const seed = (Date.now() & 0xffff) ^ 0x9e3779b9 ^ blobCount;
+    const rand = mulberry32(seed);
+    const between = (min: number, max: number) => min + rand() * (max - min);
+    const pick = <T,>(arr: T[]) => arr[Math.floor(rand() * arr.length)];
+    return Array.from({ length: blobCount }).map(() => ({
+      top: `${between(-20, 80)}%`,
+      left: `${between(-20, 80)}%`,
+      size: between(150, 500),
+      color: pick(palette),
+    }));
+  }, [blobCount, palette]);
 
   return (
     <motion.div
@@ -115,10 +123,13 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
           style={{
             top: b.top,
             left: b.left,
-            width: b.size,
-            height: b.size,
+            width: b.size, // number => px
+            height: b.size, // number => px
             background: `radial-gradient(circle at center, ${b.color} 0%, transparent 70%)`,
             mixBlendMode: 'multiply',
+            contain: 'paint',
+            backfaceVisibility: 'hidden',
+            willChange: 'transform',
           }}
           className="absolute rounded-full"
         />
