@@ -29,7 +29,11 @@ function App() {
       {/* parallax background shapes (deferred) */}
       <Suspense fallback={null}>
         <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
-          <BackgroundShapes />
+          <BackgroundShapes
+            density="lush"
+            speed={10}
+            amplitude={{ x: 12, y: 30 }}
+          />
         </div>
       </Suspense>
 

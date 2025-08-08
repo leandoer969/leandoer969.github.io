@@ -1,164 +1,135 @@
 // src/components/BackgroundShapes.tsx
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 
-/**
- * BlobConfig defines the shape parameters for each blob.
- */
-type BlobConfig = {
-  top: string;
-  left: string;
-  size: string;
-  color: string;
-};
+type Density = 'sparse' | 'normal' | 'lush';
 
-/** Props to control motion */
+type BlobConfig = { top: string; left: string; size: number; color: string };
+
 type BackgroundShapesProps = {
-  /**
-   * Speed factor: >1 makes blobs traverse their range sooner (perceived faster),
-   * <1 makes them lag (slower). Default: 1.
-   */
   speed?: number;
-  /**
-   * Amplitude in percent for horizontal/vertical travel.
-   * x is symmetric ([-x%, +x%]), y goes from +y to -y.
-   */
   amplitude?: { x: number; y: number };
+  colors?: string[];
+  /** explicit count (wins over density) */
+  count?: number;
+  /** ergonomic density selector */
+  density?: Density;
 };
 
-/** Configuration constants */
-const DEFAULT_NUM_BLOBS = 12;
-const MOBILE_BLOB_THRESHOLD = 768; // px
-const MOBILE_BLOB_COUNT = 6;
-const LOW_DPR_THRESHOLD = 1.5;
-const LOW_DPR_BLOB_COUNT = 8;
-
-// Soft base colors
-const baseColors = [
-  'rgba(59,130,246,0.3)',
-  'rgba(244,114,182,0.3)',
-  'rgba(16,185,129,0.3)',
-  'rgba(250,204,21,0.3)',
+const tokenPalette = [
+  'color-mix(in oklch, var(--color-primary) 28%, transparent)',
+  'color-mix(in oklch, var(--color-people) 28%, transparent)',
+  'color-mix(in oklch, var(--color-success) 28%, transparent)',
+  'color-mix(in oklch, var(--color-info) 24%, transparent)',
 ];
 
-// Utility helpers
-const randomBetween = (min: number, max: number) =>
-  Math.random() * (max - min) + min;
-const pickColor = () =>
-  baseColors[Math.floor(Math.random() * baseColors.length)];
+const MOBILE_BLOB_THRESHOLD = 768;
+const LOW_DPR_THRESHOLD = 1.5;
 
-/**
- * Adaptive blob count hook.
- */
-const useBlobCount = () => {
-  const [count, setCount] = useState(() => {
-    if (typeof window === 'undefined') return DEFAULT_NUM_BLOBS;
-    if (window.innerWidth < MOBILE_BLOB_THRESHOLD) return MOBILE_BLOB_COUNT;
-    if (window.devicePixelRatio && window.devicePixelRatio < LOW_DPR_THRESHOLD)
-      return LOW_DPR_BLOB_COUNT;
-    return DEFAULT_NUM_BLOBS;
-  });
+function densityBase(d: Density) {
+  switch (d) {
+    case 'sparse':
+      return 8;
+    case 'lush':
+      return 16;
+    default:
+      return 12;
+  }
+}
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
+function autoCount(d: Density) {
+  const base = densityBase(d);
+  if (typeof window === 'undefined') return base;
+  if (window.innerWidth < MOBILE_BLOB_THRESHOLD)
+    return Math.max(4, Math.round(base * 0.5));
+  if (window.devicePixelRatio && window.devicePixelRatio < LOW_DPR_THRESHOLD)
+    return Math.round(base * 0.75);
+  return base;
+}
 
-    const resizeHandler = () => {
-      if (window.innerWidth < MOBILE_BLOB_THRESHOLD) {
-        setCount(MOBILE_BLOB_COUNT);
-      } else if (
-        window.devicePixelRatio &&
-        window.devicePixelRatio < LOW_DPR_THRESHOLD
-      ) {
-        setCount(LOW_DPR_BLOB_COUNT);
-      } else {
-        setCount(DEFAULT_NUM_BLOBS);
-      }
-    };
+// Mulberry32 PRNG
+function mulberry32(seed: number) {
+  return function () {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
-    window.addEventListener('resize', resizeHandler);
-    return () => window.removeEventListener('resize', resizeHandler);
-  }, []);
-
-  return count;
-};
-
-/**
- * BackgroundShapes renders a field of soft, parallax-moving blobs.
- */
 const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   speed = 8,
   amplitude = { x: 10, y: 25 },
+  colors,
+  count,
+  density = 'normal',
 }) => {
   const { scrollYProgress } = useScroll();
 
-  // prefers-reduced-motion
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  // reduced motion
+  const [prm, setPrm] = useState(false);
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mql.matches);
-    const listener = (e: MediaQueryListEvent) =>
-      setPrefersReducedMotion(e.matches);
-    if ('addEventListener' in mql) {
-      mql.addEventListener('change', listener);
-    } else {
-      // @ts-expect-error: fallback for older browsers without addEventListener on MediaQueryList
-      mql.addListener(listener);
-    }
-    return () => {
-      if ('removeEventListener' in mql) {
-        mql.removeEventListener('change', listener);
-      } else {
-        // @ts-expect-error: fallback for older browsers without removeEventListener on MediaQueryList
-        mql.removeListener(listener);
-      }
-    };
+    setPrm(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setPrm(e.matches);
+    mql.addEventListener?.('change', handler);
+    return () => mql.removeEventListener?.('change', handler);
   }, []);
 
-  // Warp progress by speed (clamped to [0,1])
-  const warpedProgress = useTransform(scrollYProgress, (v) =>
+  // transforms
+  const warped = useTransform(scrollYProgress, (v) =>
     Math.min(Math.max(v * speed, 0), 1)
   );
-
-  // Compute raw transforms based on amplitude
   const rawX = useTransform(
-    warpedProgress,
+    warped,
     [0, 1],
     [`-${amplitude.x}%`, `${amplitude.x}%`]
   );
   const rawY = useTransform(
-    warpedProgress,
+    warped,
     [0, 1],
     [`${amplitude.y}%`, `-${amplitude.y}%`]
   );
+  const springY = useSpring(rawY, { stiffness: 100, damping: 20 });
 
-  // Spring smoothing for vertical motion (hook called unconditionally)
-  const springY = useSpring(rawY, {
-    stiffness: 100,
-    damping: 20,
-  });
+  const x = prm ? '0%' : rawX;
+  const y = prm ? '0%' : springY;
 
-  // Decide final x/y values respecting reduced-motion preference
-  const x = prefersReducedMotion ? '0%' : rawX;
-  const y = prefersReducedMotion ? '0%' : springY;
-
-  const blobCount = useBlobCount();
-
-  const blobs = useMemo<BlobConfig[]>(
-    () =>
-      Array.from({ length: blobCount }).map(() => ({
-        top: `${randomBetween(-20, 80)}%`,
-        left: `${randomBetween(-20, 80)}%`,
-        size: `${randomBetween(150, 500)}px`,
-        color: pickColor(),
-      })),
-    [blobCount]
+  // count based on density (or explicit count)
+  const computeCount = useCallback(
+    () => count ?? autoCount(density),
+    [count, density]
   );
+  const [blobCount, setBlobCount] = useState<number>(computeCount);
+  useEffect(() => setBlobCount(computeCount()), [computeCount]);
+
+  useEffect(() => {
+    if (count != null) return;
+    const onResize = () => setBlobCount(autoCount(density));
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [count, density]);
+
+  const palette = colors ?? tokenPalette;
+
+  const blobs = useMemo<BlobConfig[]>(() => {
+    const seed = (Date.now() & 0xffff) ^ 0x9e3779b9 ^ blobCount;
+    const rand = mulberry32(seed);
+    const between = (min: number, max: number) => min + rand() * (max - min);
+    const pick = <T,>(arr: T[]) => arr[Math.floor(rand() * arr.length)];
+    return Array.from({ length: blobCount }).map(() => ({
+      top: `${between(-20, 80)}%`,
+      left: `${between(-20, 80)}%`,
+      size: between(150, 500),
+      color: pick(palette),
+    }));
+  }, [blobCount, palette]);
 
   return (
     <motion.div
       style={{ x, y }}
-      className="pointer-events-none static inset-0 -z-10 h-screen transition-transform duration-700 ease-out will-change-transform"
+      className="pointer-events-none h-[100svh] transition-transform duration-700 ease-out will-change-transform"
+      aria-hidden="true"
     >
       {blobs.map((b, i) => (
         <div
@@ -170,6 +141,9 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
             height: b.size,
             background: `radial-gradient(circle at center, ${b.color} 0%, transparent 70%)`,
             mixBlendMode: 'multiply',
+            contain: 'paint',
+            backfaceVisibility: 'hidden',
+            willChange: 'transform',
           }}
           className="absolute rounded-full"
         />
