@@ -1,6 +1,8 @@
 // src/components/BackgroundShapes.tsx
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo, useEffect, useState, useCallback } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
+
+type Density = 'sparse' | 'normal' | 'lush';
 
 type BlobConfig = { top: string; left: string; size: number; color: string };
 
@@ -8,9 +10,12 @@ type BackgroundShapesProps = {
   speed?: number;
   amplitude?: { x: number; y: number };
   colors?: string[];
+  /** explicit count (wins over density) */
+  count?: number;
+  /** ergonomic density selector */
+  density?: Density;
 };
 
-// token palette (light/dark via CSS vars)
 const tokenPalette = [
   'color-mix(in oklch, var(--color-primary) 28%, transparent)',
   'color-mix(in oklch, var(--color-people) 28%, transparent)',
@@ -18,40 +23,31 @@ const tokenPalette = [
   'color-mix(in oklch, var(--color-info) 24%, transparent)',
 ];
 
-const DEFAULT_NUM_BLOBS = 12;
 const MOBILE_BLOB_THRESHOLD = 768;
-const MOBILE_BLOB_COUNT = 6;
 const LOW_DPR_THRESHOLD = 1.5;
-const LOW_DPR_BLOB_COUNT = 8;
 
-const useBlobCount = () => {
-  const [count, setCount] = useState(() => {
-    if (typeof window === 'undefined') return DEFAULT_NUM_BLOBS;
-    if (window.innerWidth < MOBILE_BLOB_THRESHOLD) return MOBILE_BLOB_COUNT;
-    if (window.devicePixelRatio && window.devicePixelRatio < LOW_DPR_THRESHOLD)
-      return LOW_DPR_BLOB_COUNT;
-    return DEFAULT_NUM_BLOBS;
-  });
+function densityBase(d: Density) {
+  switch (d) {
+    case 'sparse':
+      return 8;
+    case 'lush':
+      return 16;
+    default:
+      return 12;
+  }
+}
 
-  useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth < MOBILE_BLOB_THRESHOLD)
-        setCount(MOBILE_BLOB_COUNT);
-      else if (
-        window.devicePixelRatio &&
-        window.devicePixelRatio < LOW_DPR_THRESHOLD
-      )
-        setCount(LOW_DPR_BLOB_COUNT);
-      else setCount(DEFAULT_NUM_BLOBS);
-    };
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
+function autoCount(d: Density) {
+  const base = densityBase(d);
+  if (typeof window === 'undefined') return base;
+  if (window.innerWidth < MOBILE_BLOB_THRESHOLD)
+    return Math.max(4, Math.round(base * 0.5));
+  if (window.devicePixelRatio && window.devicePixelRatio < LOW_DPR_THRESHOLD)
+    return Math.round(base * 0.75);
+  return base;
+}
 
-  return count;
-};
-
-// Mulberry32 PRNG for deterministic layout per mount
+// Mulberry32 PRNG
 function mulberry32(seed: number) {
   return function () {
     let t = (seed += 0x6d2b79f5);
@@ -65,9 +61,12 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   speed = 8,
   amplitude = { x: 10, y: 25 },
   colors,
+  count,
+  density = 'normal',
 }) => {
   const { scrollYProgress } = useScroll();
 
+  // reduced motion
   const [prm, setPrm] = useState(false);
   useEffect(() => {
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -77,6 +76,7 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
     return () => mql.removeEventListener?.('change', handler);
   }, []);
 
+  // transforms
   const warped = useTransform(scrollYProgress, (v) =>
     Math.min(Math.max(v * speed, 0), 1)
   );
@@ -95,7 +95,21 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   const x = prm ? '0%' : rawX;
   const y = prm ? '0%' : springY;
 
-  const blobCount = useBlobCount();
+  // count based on density (or explicit count)
+  const computeCount = useCallback(
+    () => count ?? autoCount(density),
+    [count, density]
+  );
+  const [blobCount, setBlobCount] = useState<number>(computeCount);
+  useEffect(() => setBlobCount(computeCount()), [computeCount]);
+
+  useEffect(() => {
+    if (count != null) return;
+    const onResize = () => setBlobCount(autoCount(density));
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [count, density]);
+
   const palette = colors ?? tokenPalette;
 
   const blobs = useMemo<BlobConfig[]>(() => {
@@ -123,8 +137,8 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
           style={{
             top: b.top,
             left: b.left,
-            width: b.size, // number => px
-            height: b.size, // number => px
+            width: b.size,
+            height: b.size,
             background: `radial-gradient(circle at center, ${b.color} 0%, transparent 70%)`,
             mixBlendMode: 'multiply',
             contain: 'paint',
