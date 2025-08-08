@@ -1,13 +1,12 @@
 // src/components/Navbar.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { LinksList } from './ui/LinksList.tsx';
+import { LinksList } from './ui/LinksList';
+import { useActiveSection } from '../hooks/useActiveSection';
 
 let DevThemeToggle: React.ComponentType | null = null;
-
 if (import.meta.env.DEV) {
-  // only imported in dev builds
-  DevThemeToggle = React.lazy(() => import('./ThemeToggle.tsx'));
+  DevThemeToggle = React.lazy(() => import('./ThemeToggle'));
 }
 
 const Navbar: React.FC = () => {
@@ -19,23 +18,38 @@ const Navbar: React.FC = () => {
     return () => document.body.classList.remove('overflow-hidden');
   }, [isOpen]);
 
+  // sections you want to spy (ensure your sections have these ids)
+  const sectionIds = useMemo(
+    () =>
+      ['hero', 'people', 'mission', 'vision', 'projects', 'ongoings'] as const,
+    []
+  );
+  const activeId = useActiveSection(sectionIds);
+
   return (
     <nav className="navbar-glass fixed inset-x-0 top-0 z-50">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         {/* Logo / Name */}
-        <a href="#hero" className="text-2xl font-bold text-gray-900">
+        <a href="#hero" className="text-ink text-2xl font-bold">
           _onath__
         </a>
+
+        {/* Dev-only theme toggle */}
         {DevThemeToggle && (
           <React.Suspense fallback={null}>
             <DevThemeToggle />
           </React.Suspense>
-        )}{' '}
+        )}
+
         {/* Desktop Links */}
-        <LinksList className="hidden space-x-8 font-medium text-gray-700 md:flex" />
+        <LinksList
+          activeId={activeId}
+          className="hidden items-center gap-8 font-medium md:flex"
+        />
+
         {/* Hamburger toggle (below md) */}
         <button
-          className="text-gray-700 hover:text-gray-900 focus:outline-none md:hidden"
+          className="text-muted hover:text-ink focus-ring md:hidden"
           aria-label={isOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
@@ -52,7 +66,8 @@ const Navbar: React.FC = () => {
           className="relative inset-x-0 top-full p-6 md:hidden"
         >
           <LinksList
-            className="flex flex-col space-y-4 font-medium text-gray-700"
+            activeId={activeId}
+            className="flex flex-col space-y-4 font-medium"
             onClick={() => setIsOpen(false)}
           />
         </div>

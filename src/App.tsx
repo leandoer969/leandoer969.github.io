@@ -7,6 +7,7 @@ import ProjectsSection from './components/ProjectSection';
 import OngoingsSection from './components/OngoingSection';
 import Footer from './components/Footer';
 import WipPlaceholder from './components/WipPlaceholder';
+import ExamplePage from './components/Storybanner';
 
 // Lazy-load the background shapes to defer non-critical paint
 const BackgroundShapes = React.lazy(
@@ -40,6 +41,7 @@ function App() {
       <Hero />
 
       <main>
+        <ExamplePage />
         <ProjectsSection />
         <OngoingsSection />
       </main>

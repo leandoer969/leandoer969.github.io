@@ -20,6 +20,7 @@
 
   /* Accents */
   --color-primary: #4f46e5; /* indigo */
+  --color-data: #3b82f6; /* blue */
   --color-health: #14b8a6; /* mint/teal */
   --color-people: #c026d3; /* orchid */
   --color-info: #0ea5e9;
@@ -41,6 +42,9 @@
   --leading-head: 1.2;
   --leading-body: 1.7;
   --measure: 65ch;
+
+  /* Layout helpers */
+  --nav-h: 4rem; /* used by scroll-mt-nav */
 }
 
 /* 2.5) Follow system *only if* no manual class is set */
@@ -56,6 +60,7 @@
     --color-muted: #9aa7b7;
 
     --color-primary: #818cf8;
+    --color-data: #60a5fa;
     --color-health: #5eead4;
     --color-people: #e879f9;
     --color-info: #7dd3fc;
@@ -133,12 +138,65 @@
   }
 }
 
-/* 7) Utilities: fonts, type scale, rhythm, focus ring */
+/* 7) Utilities: fonts, colors, type, rhythm, helpers */
 @layer utilities {
+  /* Font families */
   .font-display {
     font-family: var(--font-display);
   }
 
+  /* Text colors mapped to tokens */
+  .text-ink {
+    color: var(--color-ink);
+  }
+  .text-muted {
+    color: var(--color-muted);
+  }
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .text-data {
+    color: var(--color-data);
+  }
+  .text-health {
+    color: var(--color-health);
+  }
+  .text-people {
+    color: var(--color-people);
+  }
+  .text-info {
+    color: var(--color-info);
+  }
+  .text-success {
+    color: var(--color-success);
+  }
+  .text-warning {
+    color: var(--color-warning);
+  }
+
+  /* Background colors mapped to surfaces */
+  .bg-bg {
+    background-color: var(--color-bg);
+  }
+  .bg-surface-1 {
+    background-color: var(--color-surface-1);
+  }
+  .bg-surface-health {
+    background-color: var(--color-surface-health);
+  }
+  .bg-surface-data {
+    background-color: var(--color-surface-data);
+  }
+  .bg-surface-people {
+    background-color: var(--color-surface-people);
+  }
+
+  /* Borders */
+  .border-default {
+    border-color: var(--color-border);
+  }
+
+  /* Type scale */
   .text-hero {
     font-size: var(--text-hero);
     line-height: var(--leading-tight);
@@ -166,6 +224,7 @@
     line-height: 1.5;
   }
 
+  /* Measure & vertical rhythm */
   .measure {
     max-width: var(--measure);
   }
@@ -182,5 +241,53 @@
   /* Reusable focus ring for interactive elements */
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)];
+  }
+
+  /* Headline balance + anchor offset */
+  .text-balance {
+    text-wrap: balance;
+  }
+  .scroll-mt-nav {
+    scroll-margin-top: calc(var(--nav-h, 4rem));
+  }
+
+  /* Optional: drive stroke width by CSS var if you like */
+  .stroke-var * {
+    stroke-width: var(--line-w, 2px);
+  }
+
+  /* In-view reveal animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
+  }
+  .reveal.inview {
+    opacity: 1;
+    transform: none;
+  }
+
+  .reveal-x {
+    opacity: 0;
+    transform: translateX(var(--reveal-x, 8px));
+    transition:
+      opacity 220ms ease-out,
+      transform 220ms ease-out;
+  }
+  .reveal-x.inview {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Reduced motion: disable/soften entrances */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-x {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
