@@ -20,6 +20,7 @@ const ExamplePage: React.FC = () => {
             mobileRotateAndStretch
             preserveAspectRatio="xMidYMid meet"
             unsetWidthHeight
+            strokeWidth="3px"
           />
         }
         ariaLabel="Our mission"
@@ -47,6 +48,7 @@ const ExamplePage: React.FC = () => {
             mobileRotateAndStretch
             preserveAspectRatio="xMidYMid meet"
             unsetWidthHeight
+            strokeWidth="5px"
           />
         }
         ariaLabel="Our vision"
