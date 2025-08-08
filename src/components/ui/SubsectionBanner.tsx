@@ -36,7 +36,7 @@ export const SubsectionBanner: React.FC<SubsectionBannerProps> = React.memo(
     textSide,
     bgColor,
     tone = 'neutral',
-    height = 'h-[90svh]',
+    height = 'h-[90svh] scroll-mt-nav',
     art,
     children,
     id,

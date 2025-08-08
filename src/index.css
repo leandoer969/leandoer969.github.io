@@ -248,7 +248,7 @@
     text-wrap: balance;
   }
   .scroll-mt-nav {
-    scroll-margin-top: var(--nav-h);
+    scroll-margin-top: calc(var(--nav-h, 4rem));
   }
 
   /* Optional: drive stroke width by CSS var if you like */

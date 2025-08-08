@@ -10,9 +10,10 @@ const ExamplePage: React.FC = () => {
   return (
     <>
       <SubsectionBanner
+        id="people"
         textSide="right"
         tone="people"
-        height="h-[90svh]"
+        // height="h-[90svh]"
         art={
           <ArtSection
             svg={SvgA}
@@ -32,9 +33,9 @@ const ExamplePage: React.FC = () => {
         />
       </SubsectionBanner>
       <SubsectionBanner
+        id="mission"
         textSide="left"
         tone="health"
-        height="h-[90svh]"
         art={
           <ArtSection
             svg={SvgA}
@@ -59,9 +60,9 @@ const ExamplePage: React.FC = () => {
       </SubsectionBanner>
 
       <SubsectionBanner
+        id="vision"
         textSide="right"
         tone="data"
-        height="h-[90svh]"
         art={
           <ArtSection
             svg={SvgB}
