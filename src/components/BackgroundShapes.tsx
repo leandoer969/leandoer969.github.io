@@ -5,9 +5,9 @@ import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 type BlobConfig = { top: string; left: string; size: string; color: string };
 
 type BackgroundShapesProps = {
-  speed?: number; // >1 = faster parallax
-  amplitude?: { x: number; y: number }; // travel in %
-  colors?: string[]; // optional custom palette
+  speed?: number;
+  amplitude?: { x: number; y: number };
+  colors?: string[]; // optional override palette
 };
 
 const DEFAULT_NUM_BLOBS = 12;
@@ -16,12 +16,12 @@ const MOBILE_BLOB_COUNT = 6;
 const LOW_DPR_THRESHOLD = 1.5;
 const LOW_DPR_BLOB_COUNT = 8;
 
-// same rgba palette for now (we’ll swap to tokens in the next commit)
-const baseColors = [
-  'rgba(59,130,246,0.30)',
-  'rgba(244,114,182,0.30)',
-  'rgba(16,185,129,0.30)',
-  'rgba(250,204,21,0.30)',
+// token-based palette that adapts to light/dark automatically
+const tokenPalette = [
+  'color-mix(in oklch, var(--color-primary) 28%, transparent)',
+  'color-mix(in oklch, var(--color-people) 28%, transparent)',
+  'color-mix(in oklch, var(--color-success) 28%, transparent)',
+  'color-mix(in oklch, var(--color-info) 24%, transparent)',
 ];
 
 const randBetween = (min: number, max: number) =>
@@ -62,7 +62,6 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
 }) => {
   const { scrollYProgress } = useScroll();
 
-  // reduced motion
   const [prm, setPrm] = useState(false);
   useEffect(() => {
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -72,7 +71,6 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
     return () => mql.removeEventListener?.('change', handler);
   }, []);
 
-  // parallax transforms
   const warped = useTransform(scrollYProgress, (v) =>
     Math.min(Math.max(v * speed, 0), 1)
   );
@@ -92,10 +90,8 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   const y = prm ? '0%' : springY;
 
   const blobCount = useBlobCount();
-  const palette = colors ?? baseColors;
+  const palette = colors ?? tokenPalette;
 
-  // KEY: start slightly outside so they drift in; absolute children are
-  // positioned relative to the *wrapper* (nearest positioned ancestor).
   const blobs = useMemo<BlobConfig[]>(
     () =>
       Array.from({ length: blobCount }).map(() => ({
@@ -110,7 +106,6 @@ const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   return (
     <motion.div
       style={{ x, y }}
-      // IMPORTANT: no position/inset here — wrapper controls clipping & placement
       className="pointer-events-none h-[100svh] transition-transform duration-700 ease-out will-change-transform"
       aria-hidden="true"
     >
