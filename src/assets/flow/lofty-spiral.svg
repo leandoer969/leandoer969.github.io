@@ -1,0 +1,12 @@
+<svg viewBox="00 0 200 400" xmlns="http://www.w3.org/2000/svg" fill="none"
+     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="
+    M20,400
+    S200,350  20,150
+
+    C60,140 120,150 80,100
+    S160,80 120,40
+    S180,20 150,10
+    S150,0  160,0
+  "/>
+</svg>
