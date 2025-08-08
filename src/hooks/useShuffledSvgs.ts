@@ -1,7 +1,6 @@
 // src/hooks/useShuffledSvgs.ts
 import { useRef } from 'react';
 import type { ComponentType, SVGProps } from 'react';
-import SampleSVG from '../assets/sample.svg?react';
 import LoopRiseSVG from '../assets/flow/loop-rise.svg?react';
 import BroadUndulationSVG from '../assets/flow/broad-undulation.svg?react';
 import DoubleSCurveSVG from '../assets/flow/double-s-curve.svg?react';
@@ -16,7 +15,6 @@ import { shuffleArray } from '../utils/shuffle';
 export type SvgComp = ComponentType<SVGProps<SVGSVGElement>>;
 
 const SVGS = [
-  SampleSVG,
   LoopRiseSVG,
   BroadUndulationSVG,
   DoubleSCurveSVG,
