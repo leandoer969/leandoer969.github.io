@@ -5,7 +5,7 @@ import { StoryTextElement } from './ui/StoryTextElement';
 import { ArtSection } from './ui/ArtSection';
 
 const ExamplePage: React.FC = () => {
-  const [SvgA, SvgB] = useShuffledSvgs();
+  const [SvgA, SvgB, SvgC] = useShuffledSvgs();
 
   return (
     <>
@@ -20,7 +20,7 @@ const ExamplePage: React.FC = () => {
             mobileRotateAndStretch
             preserveAspectRatio="xMidYMid meet"
             unsetWidthHeight
-            strokeWidth="3px"
+            strokeWidth="1px"
           />
         }
         ariaLabel="Our People"
@@ -38,7 +38,7 @@ const ExamplePage: React.FC = () => {
         tone="health"
         art={
           <ArtSection
-            svg={SvgA}
+            svg={SvgB}
             mobileRotateAndStretch
             preserveAspectRatio="xMidYMid meet"
             unsetWidthHeight
@@ -65,7 +65,7 @@ const ExamplePage: React.FC = () => {
         tone="data"
         art={
           <ArtSection
-            svg={SvgB}
+            svg={SvgC}
             mobileRotateAndStretch
             preserveAspectRatio="xMidYMid meet"
             unsetWidthHeight
