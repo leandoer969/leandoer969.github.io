@@ -5,7 +5,7 @@ type Tone = 'neutral' | 'data' | 'health' | 'people' | 'primary';
 function toneToClasses(tone: Tone) {
   switch (tone) {
     case 'data':
-      return { bg: 'bg-surface-data', artText: 'text-primary' };
+      return { bg: 'bg-surface-data', artText: 'text-data' };
     case 'health':
       return { bg: 'bg-surface-health', artText: 'text-health' };
     case 'people':
