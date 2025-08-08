@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { LinksList } from './ui/LinksList.tsx';
+import ThemeToggle from './ThemeToggle.tsx';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ const Navbar: React.FC = () => {
         <a href="#hero" className="text-2xl font-bold text-gray-900">
           _onath__
         </a>
-
+        <ThemeToggle />
         {/* Desktop Links */}
         <LinksList className="hidden space-x-8 font-medium text-gray-700 md:flex" />
 

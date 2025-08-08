@@ -30,6 +30,28 @@
   --color-border: #e2e8f0;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not(.dark):not(.light) {
+    --color-bg: #0b0c10;
+    --color-surface-1: #0f1418;
+    --color-surface-health: #0f1b19;
+    --color-surface-data: #141327;
+    --color-surface-people: #1c1221;
+
+    --color-ink: #e5f0ff;
+    --color-muted: #9aa7b7;
+
+    --color-primary: #818cf8;
+    --color-health: #5eead4;
+    --color-people: #e879f9;
+    --color-info: #7dd3fc;
+    --color-success: #6ee7b7;
+    --color-warning: #fbbf24;
+
+    --color-border: #243141;
+  }
+}
+
 /* Dark-mode overrides (toggle by adding .dark on <html>) */
 :root.dark {
   --color-bg: #0b0c10;
