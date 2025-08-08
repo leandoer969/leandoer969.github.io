@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="/src/styles.css" rel="stylesheet" />
     <title>Onath on the run</title>
+    <script>
+      (function () {
+        try {
+          var key = 'theme'; // 'light' | 'dark' | 'system'
+          var pref = localStorage.getItem(key) || 'system';
+          var root = document.documentElement;
+
+          // Clean slate
+          root.classList.remove('dark', 'light');
+
+          if (pref === 'dark') root.classList.add('dark');
+          else if (pref === 'light') root.classList.add('light');
+          // else 'system' -> no class; media query will handle it
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
