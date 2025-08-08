@@ -1,4 +1,3 @@
-// ExamplePage.tsx
 import * as React from 'react';
 import { useShuffledSvgs } from '../hooks/useShuffledSvgs';
 import { SubsectionBanner } from './ui/SubsectionBanner';
@@ -11,44 +10,46 @@ const ExamplePage: React.FC = () => {
   return (
     <>
       <SubsectionBanner
-        textSide="left" // desktop: text left, art right
-        bgColor="bg-indigo-50"
-        height="h-[100svh]"
+        textSide="left"
+        bgColor="bg-surface-data"
+        height="h-[90svh]"
         art={
           <ArtSection
             svg={SvgA}
-            className="text-yellow-500"
-            mobileRotateAndStretch // rotate + stretch on mobile
+            className="text-primary"
+            mobileRotateAndStretch
             preserveAspectRatio="xMidYMid meet"
             unsetWidthHeight
           />
         }
+        ariaLabel="Our mission"
       >
         <StoryTextElement
           title="Our Mission"
           paragraph="We build amazing experiences that scale across devices."
           bullets={[
-            'Responsive Design',
-            'High Performance',
-            'Scalable Architecture',
+            'Responsive design',
+            'High performance',
+            'Scalable architecture',
           ]}
           badges={['Responsive', 'Scalable', 'Modern']}
         />
       </SubsectionBanner>
 
       <SubsectionBanner
-        textSide="right" // desktop: text right, art left
-        bgColor="bg-emerald-50"
-        height="h-[100svh]"
+        textSide="right"
+        bgColor="bg-surface-health"
+        height="h-[90svh]"
         art={
           <ArtSection
             svg={SvgB}
-            className="text-pink-500"
+            className="text-people"
             mobileRotateAndStretch
             preserveAspectRatio="xMidYMid meet"
             unsetWidthHeight
           />
         }
+        ariaLabel="Our vision"
       >
         <StoryTextElement
           title="Our Vision"

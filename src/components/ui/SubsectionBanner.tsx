@@ -1,50 +1,53 @@
-// src/components/ui/SubsectionBanner.tsx
 import * as React from 'react';
 
 export interface SubsectionBannerProps {
   textSide: 'left' | 'right';
-  bgColor?: string;
-  height?: string; // e.g. 'h-[100svh]' | 'h-[75svh]'
+  bgColor?: string; // prefer token surfaces
+  height?: string; // e.g. 'h-[90svh]'
   art: React.ReactNode;
   children: React.ReactNode;
+  id?: string;
+  ariaLabel?: string;
 }
 
-export const SubsectionBanner: React.FC<SubsectionBannerProps> = ({
-  textSide,
-  bgColor = 'bg-gray-100',
-  height = 'h-[100svh]',
-  art,
-  children,
-}) => {
-  // On mobile: text = order-1, art = order-2 (always)
-  // On desktop: swap based on textSide
-  const textDesktopOrder = textSide === 'left' ? 'md:order-1' : 'md:order-2';
-  const artDesktopOrder = textSide === 'left' ? 'md:order-2' : 'md:order-1';
+export const SubsectionBanner: React.FC<SubsectionBannerProps> = React.memo(
+  ({
+    textSide,
+    bgColor = 'bg-surface-1',
+    height = 'h-[90svh]',
+    art,
+    children,
+    id,
+    ariaLabel,
+  }) => {
+    const textDesktopOrder = textSide === 'left' ? 'md:order-1' : 'md:order-2';
+    const artDesktopOrder = textSide === 'left' ? 'md:order-2' : 'md:order-1';
 
-  return (
-    <section
-      className={[
-        'grid',
-        height,
-        bgColor,
-        'grid-rows-2 md:grid-cols-2 md:grid-rows-1',
-      ].join(' ')}
-    >
-      {/* Text */}
-      <div
+    return (
+      <section
+        id={id}
+        role="region"
+        aria-label={ariaLabel}
         className={[
-          'order-1',
-          textDesktopOrder,
-          'flex min-h-0 items-center',
+          'grid',
+          height,
+          bgColor,
+          'grid-rows-[auto,1fr] md:grid-cols-2 md:grid-rows-1',
         ].join(' ')}
       >
-        <div className="w-full p-10 md:p-12">{children}</div>
-      </div>
-
-      {/* Art */}
-      <div className={['order-2', artDesktopOrder, 'min-h-0'].join(' ')}>
-        {art}
-      </div>
-    </section>
-  );
-};
+        <div
+          className={[
+            'order-1',
+            textDesktopOrder,
+            'flex min-h-0 items-center',
+          ].join(' ')}
+        >
+          <div className="w-full px-6 py-10 md:px-12 md:py-16">{children}</div>
+        </div>
+        <div className={['order-2', artDesktopOrder, 'min-h-0'].join(' ')}>
+          {art}
+        </div>
+      </section>
+    );
+  }
+);
