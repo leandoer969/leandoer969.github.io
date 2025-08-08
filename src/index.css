@@ -1,51 +1,110 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import 'tailwindcss';
+/* 1) Fonts first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap');
 
-/* 2. Declare your design tokens */
+/* 2) Design tokens BEFORE tailwind import (so utilities are generated) */
 @theme {
-  /* Typography */
-  --font-sans: 'Inter', system-ui, sans-serif;
+  /* Typography tokens power tailwind classes like font-sans */
+  --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-display: Montserrat, var(--font-sans);
   --font-heading: 'Montserrat', sans-serif;
 
-  /* Colors */
-  --color-bg: #ffffff;
-  --color-text: #1f2937;
-  /* …and so on… */
+  /* Surfaces */
+  --color-bg: #f8fafb;
+  --color-surface-1: #f3f6f8;
+  --color-surface-health: #e8faf6;
+  --color-surface-data: #eef0ff;
+  --color-surface-people: #f8effe;
+
+  /* Text */
+  --color-ink: #0f172a; /* primary text */
+  --color-muted: #475569; /* secondary text */
+
+  /* Accents */
+  --color-primary: #4f46e5; /* indigo */
+  --color-health: #14b8a6; /* mint/teal */
+  --color-people: #c026d3; /* orchid/magenta */
+  --color-info: #0ea5e9;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+
+  --color-border: #e2e8f0;
 }
 
-/* 3. Override & extend base styles */
+/* Dark-mode overrides (toggle by adding .dark on <html>) */
+:root.dark {
+  --color-bg: #0b0c10;
+  --color-surface-1: #0f1418;
+  --color-surface-health: #0f1b19;
+  --color-surface-data: #141327;
+  --color-surface-people: #1c1221;
+
+  --color-ink: #e5f0ff;
+  --color-muted: #9aa7b7;
+
+  --color-primary: #818cf8;
+  --color-health: #5eead4;
+  --color-people: #e879f9;
+  --color-info: #7dd3fc;
+  --color-success: #6ee7b7;
+  --color-warning: #fbbf24;
+
+  --color-border: #243141;
+}
+
+/* 3) Now bring in Tailwind so it generates utilities from the tokens above */
+@import 'tailwindcss';
+
+/* 4) Base resets + sensible defaults using tokens */
 @layer base {
   *,
   *::before,
   *::after {
     box-sizing: border-box;
   }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+  }
+
   html {
+    color-scheme: light dark; /* lets UA pick default form/control styles */
     font-family: var(--font-sans);
     line-height: 1.5;
     scroll-behavior: smooth;
     background-color: var(--color-bg);
-    color: var(--color-text);
+    color: var(--color-ink);
   }
+
   body {
     margin: 0;
-    padding: 0;
     min-height: 100vh;
   }
-  /* Accessible focus styles */
+
+  /* Accessible focus */
   :focus-visible {
-    outline: 2px dashed var(--color-primary, #4f46e5);
+    outline: 2px dashed var(--color-primary);
     outline-offset: 2px;
   }
 }
 
-/* 4. (Optional) Add global components/utilities here */
+/* 5) Components / utilities */
 @layer components {
-  /* .btn, .card, etc. */
   .navbar-glass {
-    @apply bg-white/60 backdrop-blur-md;
+    @apply border border-white/20 bg-white/60 backdrop-blur-md dark:border-white/10 dark:bg-white/10;
   }
 }
+
 @layer utilities {
-  /* custom utility classes */
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-heading {
+    font-family: var(--font-display);
+  } /* alias, optional */
+  .font-montserrat {
+    font-family: var(--font-display);
+  } /* legacy alias */
 }
