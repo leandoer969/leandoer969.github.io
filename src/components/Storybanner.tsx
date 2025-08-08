@@ -10,13 +10,34 @@ const ExamplePage: React.FC = () => {
   return (
     <>
       <SubsectionBanner
-        textSide="left"
-        bgColor="bg-surface-data"
+        textSide="right"
+        tone="people"
         height="h-[90svh]"
         art={
           <ArtSection
             svg={SvgA}
-            className="text-primary"
+            mobileRotateAndStretch
+            preserveAspectRatio="xMidYMid meet"
+            unsetWidthHeight
+            strokeWidth="3px"
+          />
+        }
+        ariaLabel="Our People"
+      >
+        <StoryTextElement
+          title="Our People"
+          paragraph="We have great People. They are:"
+          bullets={['Strong', 'Beautiful', 'Kind']}
+          badges={['Social Engagement', 'Team-Work', 'Love']}
+        />
+      </SubsectionBanner>
+      <SubsectionBanner
+        textSide="left"
+        tone="health"
+        height="h-[90svh]"
+        art={
+          <ArtSection
+            svg={SvgA}
             mobileRotateAndStretch
             preserveAspectRatio="xMidYMid meet"
             unsetWidthHeight
@@ -39,12 +60,11 @@ const ExamplePage: React.FC = () => {
 
       <SubsectionBanner
         textSide="right"
-        bgColor="bg-surface-health"
+        tone="data"
         height="h-[90svh]"
         art={
           <ArtSection
             svg={SvgB}
-            className="text-people"
             mobileRotateAndStretch
             preserveAspectRatio="xMidYMid meet"
             unsetWidthHeight
