@@ -1,20 +1,21 @@
 # Tech & Health Color Palette Design Document
 
 ## Overview
+
 This document presents a six-tone color palette optimized for a technology-driven healthcare environment. All primary tones are designed to work with `text-offWhite` (`#F8F9FA`) for high legibility and accessibility. Each primary color is paired with its complementary accent to provide visual harmony and emphasis for UI components such as buttons, badges, alerts, and charts.
 
 ---
 
 ## Color Palette
 
-| Name           | Tailwind Class     | Hex      | Complementary Hex | Complementary Use                                   |
-| -------------- | ------------------ | -------- | ----------------- | --------------------------------------------------- |
-| **Tech Blue**  | `bg-blue-600`      | `#2563EB`| `#DA9C14`         | Golden accent for highlights, chart bars, hover states |
-| **Human Teal** | `bg-teal-500`      | `#14B8A6`| `#EB4759`         | Soft coral for badges, links, interactive elements   |
-| **Vital Green**| `bg-emerald-500`   | `#10B981`| `#EF467E`         | Muted magenta overlays or progress indicators       |
-| **Soft Slate** | `bg-slate-400`     | `#64748B`| `#9B8B74`         | Warm taupe accents for borders, dividers            |
-| **Care Purple**| `bg-purple-400`    | `#A78BFA`| `#587405`         | Olive-green call-outs for status chips              |
-| **Alert Orange**| `bg-orange-400`   | `#FB923C`| `#046DC3`         | Rich blue for critical alerts, badges, icons        |
+| Name             | Tailwind Class   | Hex       | Complementary Hex | Complementary Use                                      |
+| ---------------- | ---------------- | --------- | ----------------- | ------------------------------------------------------ |
+| **Tech Blue**    | `bg-blue-600`    | `#2563EB` | `#DA9C14`         | Golden accent for highlights, chart bars, hover states |
+| **Human Teal**   | `bg-teal-500`    | `#14B8A6` | `#EB4759`         | Soft coral for badges, links, interactive elements     |
+| **Vital Green**  | `bg-emerald-500` | `#10B981` | `#EF467E`         | Muted magenta overlays or progress indicators          |
+| **Soft Slate**   | `bg-slate-400`   | `#64748B` | `#9B8B74`         | Warm taupe accents for borders, dividers               |
+| **Care Purple**  | `bg-purple-400`  | `#A78BFA` | `#587405`         | Olive-green call-outs for status chips                 |
+| **Alert Orange** | `bg-orange-400`  | `#FB923C` | `#046DC3`         | Rich blue for critical alerts, badges, icons           |
 
 ---
 
@@ -29,12 +30,15 @@ This document presents a six-tone color palette optimized for a technology-drive
    - Use **complementary hues** sparingly to draw attention: badges, notification dots, chart highlights.
 
 3. **Examples**
+
    ```html
    <!-- Primary Button -->
-   <button class="bg-techBlue text-offWhite py-2 px-4 rounded">Start Session</button>
+   <button class="bg-techBlue text-offWhite rounded px-4 py-2">
+     Start Session
+   </button>
 
    <!-- Accent Badge -->
-   <span class="bg-[#DA9C14] text-offWhite px-2 py-1 rounded-full">New</span>
+   <span class="text-offWhite rounded-full bg-[#DA9C14] px-2 py-1">New</span>
    ```
 
 4. **Consistency**
@@ -47,33 +51,34 @@ This document presents a six-tone color palette optimized for a technology-drive
 ---
 
 ## Tailwind Configuration Snippet
+
 ```js
 // tailwind.config.js
 module.exports = {
   theme: {
     extend: {
       colors: {
-        techBlue:   '#2563EB',
-        humanTeal:  '#14B8A6',
+        techBlue: '#2563EB',
+        humanTeal: '#14B8A6',
         vitalGreen: '#10B981',
-        softSlate:  '#64748B',
+        softSlate: '#64748B',
         carePurple: '#A78BFA',
-        alertOrange:'#FB923C',
+        alertOrange: '#FB923C',
         accentGold: '#DA9C14',
-        accentCoral:'#EB4759',
-        accentMagenta:'#EF467E',
-        accentTaupe:'#9B8B74',
-        accentOlive:'#587405',
+        accentCoral: '#EB4759',
+        accentMagenta: '#EF467E',
+        accentTaupe: '#9B8B74',
+        accentOlive: '#587405',
         accentBlue: '#046DC3',
-        offWhite:   '#F8F9FA',
-      }
-    }
-  }
-}
+        offWhite: '#F8F9FA',
+      },
+    },
+  },
+};
 ```
 
 ---
 
 ## Conclusion
-This palette balances the trustworthiness and clarity of tech-focused blues and teals with the warmth and vitality of greens, purples, and oranges. Complementary accents provide flexible highlights without compromising accessibility and cohesion.
 
+This palette balances the trustworthiness and clarity of tech-focused blues and teals with the warmth and vitality of greens, purples, and oranges. Complementary accents provide flexible highlights without compromising accessibility and cohesion.
