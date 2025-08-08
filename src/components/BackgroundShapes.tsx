@@ -2,54 +2,32 @@
 import React, { useMemo, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 
-/**
- * BlobConfig defines the shape parameters for each blob.
- */
-type BlobConfig = {
-  top: string;
-  left: string;
-  size: string;
-  color: string;
-};
+type BlobConfig = { top: string; left: string; size: string; color: string };
 
-/** Props to control motion */
 type BackgroundShapesProps = {
-  /**
-   * Speed factor: >1 makes blobs traverse their range sooner (perceived faster),
-   * <1 makes them lag (slower). Default: 1.
-   */
-  speed?: number;
-  /**
-   * Amplitude in percent for horizontal/vertical travel.
-   * x is symmetric ([-x%, +x%]), y goes from +y to -y.
-   */
-  amplitude?: { x: number; y: number };
+  speed?: number; // >1 = faster parallax
+  amplitude?: { x: number; y: number }; // travel in %
+  colors?: string[]; // optional custom palette
 };
 
-/** Configuration constants */
 const DEFAULT_NUM_BLOBS = 12;
-const MOBILE_BLOB_THRESHOLD = 768; // px
+const MOBILE_BLOB_THRESHOLD = 768;
 const MOBILE_BLOB_COUNT = 6;
 const LOW_DPR_THRESHOLD = 1.5;
 const LOW_DPR_BLOB_COUNT = 8;
 
-// Soft base colors
+// same rgba palette for now (we’ll swap to tokens in the next commit)
 const baseColors = [
-  'rgba(59,130,246,0.3)',
-  'rgba(244,114,182,0.3)',
-  'rgba(16,185,129,0.3)',
-  'rgba(250,204,21,0.3)',
+  'rgba(59,130,246,0.30)',
+  'rgba(244,114,182,0.30)',
+  'rgba(16,185,129,0.30)',
+  'rgba(250,204,21,0.30)',
 ];
 
-// Utility helpers
-const randomBetween = (min: number, max: number) =>
+const randBetween = (min: number, max: number) =>
   Math.random() * (max - min) + min;
-const pickColor = () =>
-  baseColors[Math.floor(Math.random() * baseColors.length)];
+const pick = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
 
-/**
- * Adaptive blob count hook.
- */
 const useBlobCount = () => {
   const [count, setCount] = useState(() => {
     if (typeof window === 'undefined') return DEFAULT_NUM_BLOBS;
@@ -60,105 +38,81 @@ const useBlobCount = () => {
   });
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const resizeHandler = () => {
-      if (window.innerWidth < MOBILE_BLOB_THRESHOLD) {
+    const onResize = () => {
+      if (window.innerWidth < MOBILE_BLOB_THRESHOLD)
         setCount(MOBILE_BLOB_COUNT);
-      } else if (
+      else if (
         window.devicePixelRatio &&
         window.devicePixelRatio < LOW_DPR_THRESHOLD
-      ) {
+      )
         setCount(LOW_DPR_BLOB_COUNT);
-      } else {
-        setCount(DEFAULT_NUM_BLOBS);
-      }
+      else setCount(DEFAULT_NUM_BLOBS);
     };
-
-    window.addEventListener('resize', resizeHandler);
-    return () => window.removeEventListener('resize', resizeHandler);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   return count;
 };
 
-/**
- * BackgroundShapes renders a field of soft, parallax-moving blobs.
- */
 const BackgroundShapes: React.FC<BackgroundShapesProps> = ({
   speed = 8,
   amplitude = { x: 10, y: 25 },
+  colors,
 }) => {
   const { scrollYProgress } = useScroll();
 
-  // prefers-reduced-motion
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  // reduced motion
+  const [prm, setPrm] = useState(false);
   useEffect(() => {
-    if (typeof window === 'undefined') return;
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mql.matches);
-    const listener = (e: MediaQueryListEvent) =>
-      setPrefersReducedMotion(e.matches);
-    if ('addEventListener' in mql) {
-      mql.addEventListener('change', listener);
-    } else {
-      // @ts-expect-error: fallback for older browsers without addEventListener on MediaQueryList
-      mql.addListener(listener);
-    }
-    return () => {
-      if ('removeEventListener' in mql) {
-        mql.removeEventListener('change', listener);
-      } else {
-        // @ts-expect-error: fallback for older browsers without removeEventListener on MediaQueryList
-        mql.removeListener(listener);
-      }
-    };
+    setPrm(mql.matches);
+    const handler = (e: MediaQueryListEvent) => setPrm(e.matches);
+    mql.addEventListener?.('change', handler);
+    return () => mql.removeEventListener?.('change', handler);
   }, []);
 
-  // Warp progress by speed (clamped to [0,1])
-  const warpedProgress = useTransform(scrollYProgress, (v) =>
+  // parallax transforms
+  const warped = useTransform(scrollYProgress, (v) =>
     Math.min(Math.max(v * speed, 0), 1)
   );
-
-  // Compute raw transforms based on amplitude
   const rawX = useTransform(
-    warpedProgress,
+    warped,
     [0, 1],
     [`-${amplitude.x}%`, `${amplitude.x}%`]
   );
   const rawY = useTransform(
-    warpedProgress,
+    warped,
     [0, 1],
     [`${amplitude.y}%`, `-${amplitude.y}%`]
   );
+  const springY = useSpring(rawY, { stiffness: 100, damping: 20 });
 
-  // Spring smoothing for vertical motion (hook called unconditionally)
-  const springY = useSpring(rawY, {
-    stiffness: 100,
-    damping: 20,
-  });
-
-  // Decide final x/y values respecting reduced-motion preference
-  const x = prefersReducedMotion ? '0%' : rawX;
-  const y = prefersReducedMotion ? '0%' : springY;
+  const x = prm ? '0%' : rawX;
+  const y = prm ? '0%' : springY;
 
   const blobCount = useBlobCount();
+  const palette = colors ?? baseColors;
 
+  // KEY: start slightly outside so they drift in; absolute children are
+  // positioned relative to the *wrapper* (nearest positioned ancestor).
   const blobs = useMemo<BlobConfig[]>(
     () =>
       Array.from({ length: blobCount }).map(() => ({
-        top: `${randomBetween(-20, 80)}%`,
-        left: `${randomBetween(-20, 80)}%`,
-        size: `${randomBetween(150, 500)}px`,
-        color: pickColor(),
+        top: `${randBetween(-20, 80)}%`,
+        left: `${randBetween(-20, 80)}%`,
+        size: `${randBetween(150, 500)}px`,
+        color: pick(palette),
       })),
-    [blobCount]
+    [blobCount, palette]
   );
 
   return (
     <motion.div
       style={{ x, y }}
-      className="pointer-events-none static inset-0 -z-10 h-screen transition-transform duration-700 ease-out will-change-transform"
+      // IMPORTANT: no position/inset here — wrapper controls clipping & placement
+      className="pointer-events-none h-[100svh] transition-transform duration-700 ease-out will-change-transform"
+      aria-hidden="true"
     >
       {blobs.map((b, i) => (
         <div
