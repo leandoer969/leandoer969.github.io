@@ -8,6 +8,7 @@ import OngoingsSection from './components/OngoingSection';
 import Footer from './components/Footer';
 import WipPlaceholder from './components/WipPlaceholder';
 import ExamplePage from './components/Storybanner';
+import { PillarsSection } from '@/components/sections/PillarSection';
 
 // Lazy-load the background shapes to defer non-critical paint
 const BackgroundShapes = React.lazy(
@@ -41,6 +42,7 @@ function App() {
       <Hero />
 
       <main>
+        <PillarsSection />
         <ExamplePage />
         <ProjectsSection />
         <OngoingsSection />
