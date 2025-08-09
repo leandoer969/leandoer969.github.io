@@ -5,4 +5,5 @@ export const NAV_LINKS = [
   { href: '#projects', label: 'Projects' },
   { href: '#ongoings', label: 'Ongoings' },
   { href: '#cool-stuff', label: 'Cool Stuff' },
+  { href: '/wip', label: 'WIP' },
 ];
