@@ -1,13 +1,13 @@
 // App.tsx
-import './App.css';
 import React, { Suspense } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import ProjectsSection from './components/ProjectSection';
-import OngoingsSection from './components/OngoingSection';
+import './App.css';
 import Footer from './components/Footer';
-import WipPlaceholder from './components/WipPlaceholder';
+import Hero from './components/Hero';
+import Navbar from './components/Navbar';
+import OngoingsSection from './components/OngoingSection';
+import ProjectsSection from './components/ProjectSection';
 import ExamplePage from './components/Storybanner';
+import UnderConstruction from './pages/UnderConstruction';
 
 // Lazy-load the background shapes to defer non-critical paint
 const BackgroundShapes = React.lazy(
@@ -19,7 +19,7 @@ function App() {
   const isWip = import.meta.env.VITE_WIP === 'true';
 
   if (isWip) {
-    return <WipPlaceholder />;
+    return <UnderConstruction />;
   }
 
   return (
