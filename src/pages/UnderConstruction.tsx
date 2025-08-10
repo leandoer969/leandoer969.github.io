@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import BackgroundShapes from '../components/BackgroundShapes';
-
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
+const BackgroundShapes = React.lazy(
+  () => import('../components/BackgroundShapes')
+);
 type BlobConfig = {
   posX: number;
   posY: number;
@@ -64,7 +65,9 @@ const UnderConstruction: React.FC = () => {
             transformOrigin: `${cfg.originX}% ${cfg.originY}%`,
           }}
         >
-          <BackgroundShapes />
+          <Suspense fallback={null}>
+            <BackgroundShapes />
+          </Suspense>{' '}
         </div>
       ))}
 
