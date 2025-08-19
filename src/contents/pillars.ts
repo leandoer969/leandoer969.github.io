@@ -6,36 +6,41 @@ export const PILLARS: PillarContent[] = [
     id: 'data',
     title: 'Data & Analytics',
     paragraph:
-      'From EHR and metadata to sensor streams. I turn raw data into tidy, AI ready assets and keep a small set of shared metrics. DEI aware thinking and light AI like RAG help enrich context without adding noise.',
+      'I turn complex healthcare and real-world data into analysis-ready assets that teams can trust and act on.',
     bullets: [
-      'Clean and join real world data so it can be trusted',
-      'Model what matters and tell the so what',
-      'Build clear dashboards that guide decisions',
+      'Clean and integrate real-world data into analysis-ready, trusted assets',
+      'Build models that focus on key metrics and business value',
+      'Create dashboards that guide decisions at all levels',
     ],
-    badges: ['Python', 'SQL', 'Power BI', 'RWD'],
+    badges: ['Python', 'SQL', 'Power BI', 'dbt', 'RWD'],
   },
   {
     id: 'product',
     title: 'Product',
     paragraph:
-      'From user need to a feature in production. I plan small slices, measure outcomes, and support regulated products across the lifecycle.',
+      'From user needs to regulated products in production, I plan small steps, use data to guide outcomes, and support solutions across the lifecycle.',
     bullets: [
-      'Write clear PRDs and cut thin vertical slices',
-      'Prioritize by value and risk so we ship steady',
-      'Respect IVDR and quality systems from day one',
+      'Translate user and business needs into clear requirements',
+      'Prioritize by value and risk to guide roadmaps',
+      'Balance MVP iteration with regulatory compliance and quality systems',
     ],
-    badges: ['Requirements', 'Roadmap', 'IVDR', 'Agile'],
+    badges: ['Agile', 'Requirements', 'Roadmaps', 'Regulatory Compliance'],
   },
   {
     id: 'people',
     title: 'People',
     paragraph:
-      'People sit at the heart of my work. I keep it user centric, clear, and calm so teams can move with confidence.',
+      'I create clarity and trust so teams can move forward with confidence. My facilitation style turns complexity into alignment and concrete next steps.',
     bullets: [
-      'Align clinicians, engineers, and leaders on simple shared goals',
-      'Run focused workshops that end with owners and next steps',
-      'Communicate in EN DE FR SV and coach to grow skills',
+      'Align clinicians, engineers, and business leaders on shared goals',
+      'Facilitate workshops that end with ownership and next steps',
+      'Communicate fluently in EN · DE · FR · SV and coach others to grow',
     ],
-    badges: ['Stakeholders', 'Workshops', 'Coaching', 'Multilingual'],
+    badges: [
+      'Stakeholder Management',
+      'Facilitation',
+      'Coaching',
+      'Multilingual',
+    ],
   },
 ];
