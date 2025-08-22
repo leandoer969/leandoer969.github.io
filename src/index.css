@@ -161,6 +161,9 @@
   .text-health {
     color: var(--color-health);
   }
+  .text-products {
+    color: var(--color-health);
+  }
   .text-people {
     color: var(--color-people);
   }

@@ -1,5 +1,7 @@
+// vite.config.ts
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
+import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 
@@ -23,8 +25,20 @@ const svgrFlow = svgr({
       plugins: [
         'convertStyleToAttrs',
         { name: 'removeViewBox', active: false },
-        // keep fills/strokes removable here (line art only)
-        { name: 'removeAttrs', params: { attrs: ['stroke-width'] } },
+        {
+          name: 'removeAttrs',
+          params: { attrs: ['stroke', 'fill', 'stroke-width'] },
+        },
+        {
+          name: 'addAttributesToSVGElement',
+          params: {
+            attributes: [
+              { stroke: 'currentColor' },
+              { fill: 'none' },
+              { 'vector-effect': 'non-scaling-stroke' },
+            ],
+          },
+        },
       ],
     },
   },
@@ -49,4 +63,7 @@ const svgrIcons = svgr({
 // then in your export default defineConfig({ plugins: [react(), svgrFlow, svgrIcons] })
 export default defineConfig({
   plugins: [react(), svgrFlow, svgrIcons, tailwindcss()],
+  resolve: {
+    alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
+  },
 });

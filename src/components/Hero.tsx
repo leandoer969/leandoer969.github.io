@@ -10,12 +10,15 @@ const Hero: React.FC = () => (
     <div className="relative z-20 flex flex-col items-center justify-center gap-4 md:flex-row md:gap-6">
       <ProfilePicture size={128} />
       <h1 className="font-display text-hero text-ink font-bold">
-        Hi, I’m <span className="text-primary">Jonathan</span>
+        Hi, I'm <span className="text-primary">Jonathan</span>
       </h1>
     </div>
 
     <p className="measure text-body text-muted mt-4 text-balance">
-      I use data to build tools that help people solve real-world problems.
+      I turn <span className="text-data font-bold">data</span> into{' '}
+      <span className="text-products font-bold">products</span> that help{' '}
+      <span className="text-people font-bold">people</span> solve real-world
+      problems.
     </p>
 
     {/* Scroll hint */}

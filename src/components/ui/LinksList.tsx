@@ -13,11 +13,14 @@ export function LinksList({
   onClick,
   items = [
     { id: 'hero', label: 'Home' },
+    { id: 'data', label: 'Data & Analytics' },
+    { id: 'products', label: 'Products' },
     { id: 'people', label: 'People' },
-    { id: 'mission', label: 'Mission' },
-    { id: 'vision', label: 'Vision' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'ongoings', label: 'Ongoings' },
+
+    // { id: 'mission', label: 'Mission' },
+    // { id: 'vision', label: 'Vision' },
+    // { id: 'projects', label: 'Projects' },
+    // { id: 'ongoings', label: 'Ongoings' },
   ],
 }: LinksListProps) {
   return (

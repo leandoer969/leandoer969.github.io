@@ -24,3 +24,14 @@ export interface SkillItem {
   category: string;
   level?: number;
 }
+
+export type Tone = 'data' | 'product' | 'people' | 'neutral';
+
+export type PillarContent = {
+  id: 'data' | 'product' | 'people';
+  title: string;
+  paragraph?: string;
+  bullets?: string[];
+  badges?: string[];
+  tone?: Tone;
+};
