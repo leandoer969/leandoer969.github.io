@@ -1,14 +1,11 @@
 // App.tsx
-import './App.css';
-import React, { Suspense } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import ProjectsSection from './components/ProjectSection';
-import OngoingsSection from './components/OngoingSection';
-import Footer from './components/Footer';
-import WipPlaceholder from './components/WipPlaceholder';
-import ExamplePage from './components/Storybanner';
 import { PillarsSection } from '@/components/sections/PillarSection';
+import React, { Suspense } from 'react';
+import './App.css';
+import Footer from './components/Footer';
+import Hero from './components/Hero';
+import Navbar from './components/Navbar';
+import WipPlaceholder from './components/WipPlaceholder';
 
 // Lazy-load the background shapes to defer non-critical paint
 const BackgroundShapes = React.lazy(
@@ -43,9 +40,6 @@ function App() {
 
       <main>
         <PillarsSection />
-        <ExamplePage />
-        <ProjectsSection />
-        <OngoingsSection />
       </main>
 
       <Footer />
