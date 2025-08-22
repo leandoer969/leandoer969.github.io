@@ -283,6 +283,11 @@
     opacity: 1;
     transform: none;
   }
+  .pb-safe {
+    padding-bottom: calc(
+      1.25rem + env(safe-area-inset-bottom, 0px)
+    ); /* ~20px + inset */
+  }
 }
 
 /* Reduced motion: disable/soften entrances */

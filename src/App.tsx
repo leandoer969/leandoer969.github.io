@@ -5,7 +5,6 @@ import './App.css';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
-import WipPlaceholder from './components/WipPlaceholder';
 
 // Lazy-load the background shapes to defer non-critical paint
 const BackgroundShapes = React.lazy(
@@ -17,7 +16,7 @@ function App() {
   const isWip = import.meta.env.VITE_WIP === 'true';
 
   if (isWip) {
-    return <WipPlaceholder />;
+    return <UnderConstruction />;
   }
 
   return (
