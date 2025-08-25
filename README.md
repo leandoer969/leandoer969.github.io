@@ -16,10 +16,8 @@ The site showcases my work at the intersection of **data**, **product developmen
 ## 🚀 Features
 
 - Responsive landing page introducing who I am and what I do
+- About me Section
 - Narrative sections for **Data & Analytics**, **Product**, and **People**
-- Curriculum vitae timeline and skill matrix (`src/data/cv.json`, `src/data/skills.json`)
-  <!-- - Projects gallery (`src/data/projects.json`) -->
-  <!-- - Updates feed -->
 - Accessible colour palette (`docs/DesignManifest.md`)
 - Dark/light theme toggle (in progress)
 
@@ -57,9 +55,9 @@ Deployments are triggered manually through the **"Deploy to GitHub Pages"** work
 
 ## 📂 Repository Structure
 
-- `src/data/` – JSON files for CV, skills, projects
 - `docs/` – design guidelines and assets
 - `src/components/` – React components
+- `src/sections/` – React page-sections
 - `src/pages/` – page layouts
 
 ---
