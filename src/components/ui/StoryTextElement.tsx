@@ -5,13 +5,14 @@ import { Badge } from './Badge';
 
 export interface StoryTextElementProps {
   title: string;
-  paragraph?: string;
+  subtitle?: string;
+  paragraph?: string | React.ReactNode;
   bullets?: string[];
   badges?: string[];
 }
 
 export const StoryTextElement: React.FC<StoryTextElementProps> = React.memo(
-  ({ title, paragraph, bullets, badges }) => {
+  ({ title, subtitle, paragraph, bullets, badges }) => {
     const { ref, inView } = useInViewOnce<HTMLDivElement>();
     return (
       <div
@@ -27,8 +28,13 @@ export const StoryTextElement: React.FC<StoryTextElementProps> = React.memo(
           <h2 className="font-display text-h2 text-ink font-semibold tracking-tight">
             {title}
           </h2>
+          <h3 className="font-display text-h3 text-ink font-semibold tracking-tight">
+            {subtitle}
+          </h3>
 
-          {paragraph && <p className="text-body text-muted">{paragraph}</p>}
+          {paragraph && (
+            <p className="text-body text-muted text-justify">{paragraph}</p>
+          )}
 
           {bullets?.length ? (
             <ul className="text-body text-ink list-disc space-y-1.5 pl-5">
