@@ -1,4 +1,4 @@
-// src/contents/pillars.ts
+// src/data/pillars.ts
 import type { PillarContent } from '@/types.ts';
 
 export const PILLARS: PillarContent[] = [
