@@ -41,6 +41,7 @@ export const PillarsSection: React.FC = () => {
           >
             <StoryTextElement
               title={p.title}
+              subtitle={p.subtitle}
               paragraph={p.paragraph}
               bullets={p.bullets}
               badges={p.badges}
