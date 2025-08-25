@@ -1,6 +1,7 @@
 // App.tsx
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
+import AboutSection from '@/components/sections/AboutSection';
 import Hero from '@/components/sections/Hero';
 import { PillarsSection } from '@/components/sections/PillarSection';
 import UnderConstruction from '@/pages/UnderConstruction';
@@ -35,6 +36,7 @@ function App() {
       </Suspense>
       <Hero />
       <main id="pillars">
+        <AboutSection />
         <PillarsSection />
       </main>
       <Footer />
