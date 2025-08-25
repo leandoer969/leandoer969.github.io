@@ -1,5 +1,5 @@
+import ProfilePicture from '@/components/ProfilePicture';
 import React from 'react';
-import ProfilePicture from './ProfilePicture';
 
 const Hero: React.FC = () => (
   <section
