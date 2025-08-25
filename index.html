@@ -4,21 +4,22 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link href="/src/styles.css" rel="stylesheet" /> -->
-    <title>Onath on the run</title>
+    <title>Jonathan Leathers - Data & Product Specialist</title>
+    <meta
+      name="description"
+      content="Personal website of Jonathan Leathers, transforming data into products that help people solve real-world problems."
+    />
     <script>
       (function () {
         try {
-          var key = 'theme'; // 'light' | 'dark' | 'system'
+          // Read the preferred theme (light, dark, system) from localStorage. On
+          // system preference the CSS media query will take effect.
+          var key = 'theme';
           var pref = localStorage.getItem(key) || 'system';
           var root = document.documentElement;
-
-          // Clean slate
           root.classList.remove('dark', 'light');
-
           if (pref === 'dark') root.classList.add('dark');
           else if (pref === 'light') root.classList.add('light');
-          // else 'system' -> no class; media query will handle it
         } catch (e) {}
       })();
     </script>
