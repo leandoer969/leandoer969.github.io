@@ -23,7 +23,6 @@ function App() {
     <div className="flex min-h-screen flex-col">
       {/* Site Header */}
       <Navbar />
-
       {/* parallax background shapes (deferred) */}
       <Suspense fallback={null}>
         <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
@@ -34,13 +33,10 @@ function App() {
           />
         </div>
       </Suspense>
-
       <Hero />
-
       <main>
         <PillarsSection />
       </main>
-
       <Footer />
     </div>
   );
