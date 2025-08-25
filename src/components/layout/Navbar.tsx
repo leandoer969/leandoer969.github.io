@@ -1,12 +1,12 @@
 // src/components/Navbar.tsx
-import React, { useEffect, useMemo, useState } from 'react';
+import { LinksList } from '@/components/ui/LinksList';
+import { useActiveSection } from '@/hooks/useActiveSection';
 import { Menu, X } from 'lucide-react';
-import { LinksList } from './ui/LinksList';
-import { useActiveSection } from '../hooks/useActiveSection';
+import React, { useEffect, useMemo, useState } from 'react';
 
 let DevThemeToggle: React.ComponentType | null = null;
 if (import.meta.env.DEV) {
-  DevThemeToggle = React.lazy(() => import('./ThemeToggle'));
+  DevThemeToggle = React.lazy(() => import('@/components/layout/ThemeToggle'));
 }
 
 const Navbar: React.FC = () => {

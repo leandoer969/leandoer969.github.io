@@ -1,7 +1,7 @@
 import React from 'react';
 // SVGR (vite-plugin-svgr) import style:
-import GithubIcon from '../assets/icons/github.svg?react';
-import LinkedInIcon from '../assets/icons/linkedin.svg?react';
+import GithubIcon from '@/assets/icons/github.svg?react';
+import LinkedInIcon from '@/assets/icons/linkedin.svg?react';
 
 type LinkItem = {
   href: string;
