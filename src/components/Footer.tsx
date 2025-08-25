@@ -48,7 +48,7 @@ const Footer: React.FC = () => {
     <footer
       role="contentinfo"
       aria-label="Site footer"
-      className="border-default bg-bg pb-safe mt-24 border-t px-4 pt-8 text-center md:pb-12"
+      className="border-default bg-bg pb-safe border-t px-4 pt-8 text-center md:pb-12"
     >
       <nav aria-label="Footer" className="mx-auto max-w-4xl">
         <ul className="flex flex-col items-center justify-center gap-3 md:flex-row md:gap-6">
