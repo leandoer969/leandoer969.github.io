@@ -8,7 +8,7 @@ import React, { Suspense } from 'react';
 import './App.css';
 // Lazy-load the background shapes to defer non-critical paint
 const BackgroundShapes = React.lazy(
-  () => import('./components/BackgroundShapes')
+  () => import('./components/visual/BackgroundShapes')
 );
 
 function App() {

@@ -1,4 +1,4 @@
-import ProfilePicture from '@/components/ProfilePicture';
+import ProfilePicture from '@/components/ui/ProfilePicture';
 import React from 'react';
 
 const Hero: React.FC = () => (
