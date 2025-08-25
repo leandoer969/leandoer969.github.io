@@ -34,7 +34,7 @@ function App() {
         </div>
       </Suspense>
       <Hero />
-      <main>
+      <main id="pillars">
         <PillarsSection />
       </main>
       <Footer />

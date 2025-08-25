@@ -12,12 +12,6 @@ type LinkItem = {
 };
 
 const links: LinkItem[] = [
-  // {
-  //   href: 'mailto:jonathan.leathers@notmyemail.ch', //TODO: update
-  //   label: 'Email',
-  //   ariaLabel: 'Email Jonathan',
-  //   Icon: EmailIcon,
-  // },
   {
     href: 'https://github.com/leandoer969',
     label: 'GitHub',
@@ -25,15 +19,8 @@ const links: LinkItem[] = [
     ariaLabel: 'Open GitHub profile',
     Icon: GithubIcon,
   },
-  // {
-  //   href: 'https://open.spotify.com/user/yourprofile', /insert profile
-  //   label: 'Spotify',
-  //   external: true,
-  //   ariaLabel: 'Open Spotify',
-  //   Icon: SpotifyIcon,
-  // },
   {
-    href: 'https://www.linkedin.com/in/jonathanleathers', // <-- swap to your real handle
+    href: 'https://www.linkedin.com/in/jonathanleathers',
     label: 'LinkedIn',
     external: true,
     ariaLabel: 'Open LinkedIn profile',
@@ -72,8 +59,8 @@ const Footer: React.FC = () => {
       </nav>
 
       <p className="text-small text-muted mx-auto mt-4">
-        <span className="text-ink">&copy; {year}</span> _onath__ All rights
-        reserved.
+        <span className="text-ink">&copy; {year}</span> Jonathan Leathers. All
+        rights reserved.
       </p>
     </footer>
   );

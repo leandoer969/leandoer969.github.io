@@ -23,12 +23,12 @@ const Hero: React.FC = () => (
 
     {/* Scroll hint */}
     <a
-      href="#cv"
-      aria-label="Scroll down to CV"
+      href="#pillars"
+      aria-label="Scroll down to pillars"
       className="text-muted hover:text-ink focus-ring absolute bottom-[16%] z-20 rounded-full p-1 text-3xl"
     >
       <span className="motion-safe:animate-bounce">↓</span>
-      <span className="sr-only">Go to CV</span>
+      <span className="sr-only">Go to pillars</span>
     </a>
   </section>
 );
