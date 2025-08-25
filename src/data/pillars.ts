@@ -1,46 +1,43 @@
-// src/data/pillars.ts
 import type { PillarContent } from '@/types.ts';
 
 export const PILLARS: PillarContent[] = [
   {
     id: 'data',
     title: 'Data & Analytics',
+    subtitle: '→ Insight & Clarity',
     paragraph:
-      'I turn complex healthcare and real-world data into analysis-ready assets that teams can trust and act on.',
+      'I help organisations turn complex data into clear, actionable insights that drive meaningful decisions.',
     bullets: [
-      'Clean and integrate real-world data into analysis-ready, trusted assets',
-      'Build models that focus on key metrics and business value',
-      'Create dashboards that guide decisions at all levels',
+      'Data pipelines that ensure quality, reliability and transparency',
+      'Interactive dashboards and visuals for exploring and understanding information',
+      'Metrics frameworks that connect data to business impact',
     ],
-    badges: ['Python', 'SQL', 'Power BI', 'dbt', 'RWD'],
+    badges: ['Python', 'SQL', 'Power BI', 'RWD'],
   },
   {
     id: 'product',
-    title: 'Product',
+    title: 'Products',
+    subtitle: '→ Innovation & Delivery',
     paragraph:
-      'From user needs to regulated products in production, I plan small steps, use data to guide outcomes, and support solutions across the lifecycle.',
+      'I turn ideas into real-world solutions by blending design, technology and execution.',
     bullets: [
-      'Translate user and business needs into clear requirements',
-      'Prioritize by value and risk to guide roadmaps',
-      'Balance MVP iteration with regulatory compliance and quality systems',
+      'Rapid prototyping to validate concepts early and iterate fast',
+      'End-to-end product delivery from requirements to launch',
+      'Balancing speed with regulatory and quality considerations',
     ],
-    badges: ['Agile', 'Requirements', 'Roadmaps', 'Regulatory Compliance'],
+    badges: ['MVP', 'Requirements', 'Agile', 'Quality'],
   },
   {
     id: 'people',
     title: 'People',
+    subtitle: '→ Leadership & Collaboration',
     paragraph:
-      'I create clarity and trust so teams can move forward with confidence. My facilitation style turns complexity into alignment and concrete next steps.',
+      'I create environments where teams collaborate effectively and move forward with clarity and ownership.',
     bullets: [
-      'Align clinicians, engineers, and business leaders on shared goals',
-      'Facilitate workshops that end with ownership and next steps',
-      'Communicate fluently in EN · DE · FR · SV and coach others to grow',
+      'Facilitation that keeps discussions focused and outcomes clear',
+      'Cross-functional collaboration across disciplines and cultures',
+      'Coaching and mentoring to grow people and teams',
     ],
-    badges: [
-      'Stakeholder Management',
-      'Facilitation',
-      'Coaching',
-      'Multilingual',
-    ],
+    badges: ['Facilitation', 'Stakeholders', 'Coaching', 'Multilingual'],
   },
 ];
