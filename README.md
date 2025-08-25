@@ -1,63 +1,69 @@
-# React + TypeScript + Vite
+# Jonathan's Personal Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the source code for my personal website and portfolio.  
+It is built with **React**, **TypeScript**, **Vite**, and **Tailwind CSS**.
 
-Currently, two official plugins are available:
+The site showcases my work at the intersection of **data**, **product development**, and **people leadership**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🌐 Live Demo
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+👉 [Visit the site](https://leandoer969.github.io)
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+---
+
+## 🚀 Features
+
+- Responsive landing page introducing who I am and what I do
+- Narrative sections for **Data & Analytics**, **Product**, and **People**
+- Curriculum vitae timeline and skill matrix (`src/data/cv.json`, `src/data/skills.json`)
+  <!-- - Projects gallery (`src/data/projects.json`) -->
+  <!-- - Updates feed -->
+- Accessible colour palette (`docs/DesignManifest.md`)
+- Dark/light theme toggle (in progress)
+
+---
+
+## 🛠️ Getting Started
+
+Install dependencies, start the dev server, and build for production:
+
+```bash
+# install dependencies
+npm install
+
+# start the development server
+npm run dev
+
+# build for production (output in dist/)
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+To view the work-in-progress placeholder, copy `.env.example` to `.env` and set:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+```
+VITE_WIP=true
 ```
 
-## Development
+---
 
-- Copy `.env.example` → `.env` and set `VITE_WIP=true` to see the placeholder.
-- Run `npm run dev` to start the dev server (placeholder overrides all).
+## 📦 Deployment
 
-## Deployment
+The site is deployed via GitHub Pages.  
+Deployments are triggered manually through the **"Deploy to GitHub Pages"** workflow in CI.
 
-- CI will only deploy when you manually trigger the “Deploy to GitHub Pages” workflow.
+---
+
+## 📂 Repository Structure
+
+- `src/data/` – JSON files for CV, skills, projects
+- `docs/` – design guidelines and assets
+- `src/components/` – React components
+- `src/pages/` – page layouts
+
+---
+
+## 📝 License
+
+This project is licensed under the [MIT License](LICENSE).
