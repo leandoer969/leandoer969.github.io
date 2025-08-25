@@ -36,7 +36,7 @@ export const SubsectionBanner: React.FC<SubsectionBannerProps> = React.memo(
     textSide,
     bgColor,
     tone = 'neutral',
-    height = 'h-[90svh] scroll-mt-nav',
+    height = 'h-auto md:h-[90svh] md:scroll-mt-nav',
     art,
     children,
     id,
@@ -72,7 +72,13 @@ export const SubsectionBanner: React.FC<SubsectionBannerProps> = React.memo(
 
         {/* Art: default color from tone; child color (text-*) overrides if provided */}
         <div
-          className={['order-2', artDesktopOrder, 'min-h-0', artText].join(' ')}
+          className={[
+            'order-2',
+            artDesktopOrder,
+            'min-h-0',
+            'max-h-[50vh] md:max-h-none',
+            artText,
+          ].join(' ')}
         >
           {art}
         </div>

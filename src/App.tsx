@@ -1,14 +1,15 @@
 // App.tsx
+import Footer from '@/components/layout/Footer';
+import Navbar from '@/components/layout/Navbar';
+import AboutSection from '@/components/sections/AboutSection';
+import Hero from '@/components/sections/Hero';
 import { PillarsSection } from '@/components/sections/PillarSection';
 import UnderConstruction from '@/pages/UnderConstruction';
 import React, { Suspense } from 'react';
 import './App.css';
-import Footer from './components/Footer';
-import Hero from './components/Hero';
-import Navbar from './components/Navbar';
 // Lazy-load the background shapes to defer non-critical paint
 const BackgroundShapes = React.lazy(
-  () => import('./components/BackgroundShapes')
+  () => import('./components/visual/BackgroundShapes')
 );
 
 function App() {
@@ -23,7 +24,6 @@ function App() {
     <div className="flex min-h-screen flex-col">
       {/* Site Header */}
       <Navbar />
-
       {/* parallax background shapes (deferred) */}
       <Suspense fallback={null}>
         <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
@@ -34,13 +34,11 @@ function App() {
           />
         </div>
       </Suspense>
-
       <Hero />
-
-      <main>
+      <main id="pillars">
+        <AboutSection />
         <PillarsSection />
       </main>
-
       <Footer />
     </div>
   );

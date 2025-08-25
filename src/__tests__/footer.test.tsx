@@ -16,7 +16,7 @@ vi.mock('../components/../assets/icons/linkedin.svg?react', () => ({
   ),
 }));
 
-import Footer from '../components/Footer';
+import Footer from '../components/layout/Footer';
 
 describe('Footer', () => {
   it('renders a contentinfo landmark', () => {

@@ -1,4 +1,4 @@
-// src/components/ThemeToggle.tsx
+// src/components/layout/ThemeToggle.tsx
 import * as React from 'react';
 
 type Theme = 'system' | 'light' | 'dark';

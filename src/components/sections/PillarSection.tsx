@@ -2,7 +2,7 @@
 import { ArtSection } from '@/components/ui/ArtSection';
 import { StoryTextElement } from '@/components/ui/StoryTextElement';
 import { SubsectionBanner } from '@/components/ui/SubsectionBanner';
-import { PILLARS } from '@/contents/pillars';
+import { PILLARS } from '@/data/pillars';
 import { useShuffledSvgs } from '@/hooks/useShuffledSvgs';
 import type { PillarContent } from '@/types';
 import * as React from 'react';
@@ -41,6 +41,7 @@ export const PillarsSection: React.FC = () => {
           >
             <StoryTextElement
               title={p.title}
+              subtitle={p.subtitle}
               paragraph={p.paragraph}
               bullets={p.bullets}
               badges={p.badges}
