@@ -30,6 +30,7 @@ export type Tone = 'data' | 'product' | 'people' | 'neutral';
 export type PillarContent = {
   id: 'data' | 'product' | 'people';
   title: string;
+  subtitle?: string;
   paragraph?: string;
   bullets?: string[];
   badges?: string[];

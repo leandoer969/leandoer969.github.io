@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 const BackgroundShapes = React.lazy(
-  () => import('../components/BackgroundShapes')
+  () => import('@/components/visual/BackgroundShapes')
 );
 type BlobConfig = {
   posX: number;

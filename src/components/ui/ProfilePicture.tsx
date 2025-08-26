@@ -1,5 +1,5 @@
+import profilePic from '@/assets/images/jonathan.jpeg';
 import React from 'react';
-import profilePic from '../assets/jonathan.jpeg';
 
 /**
  * Reusable circular profile picture that can be imported anywhere.

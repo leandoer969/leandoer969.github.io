@@ -29,6 +29,10 @@
 
   --color-border: #e2e8f0;
 
+  --navbar-bg: rgba(255, 255, 255, 0.3); /* frosted white */
+  --navbar-border: rgb(228, 228, 231); /* zinc-200 */
+  --navbar-divider: rgb(212, 212, 216);
+
   /* Type scale (fluid) */
   --text-hero: clamp(2.25rem, 6vw, 3.5rem); /* ~36–56px */
   --text-h1: clamp(2rem, 3.5vw, 3rem); /* ~32–48px */
@@ -68,6 +72,10 @@
     --color-warning: #fbbf24;
 
     --color-border: #243141;
+
+    --navbar-bg: rgba(0, 0, 0, 0.3);
+    --navbar-border: rgb(63, 63, 70);
+    --navbar-divider: rgb(82, 82, 91);
   }
 }
 
@@ -90,6 +98,10 @@
   --color-warning: #fbbf24;
 
   --color-border: #243141;
+
+  --navbar-bg: rgba(0, 0, 0, 0.3);
+  --navbar-border: rgb(63, 63, 70);
+  --navbar-divider: rgb(82, 82, 91);
 }
 
 /* 4) Load Tailwind after tokens */
@@ -134,7 +146,23 @@
 /* 6) Components */
 @layer components {
   .navbar-glass {
-    @apply border border-white/20 bg-white/60 backdrop-blur-md dark:border-white/10 dark:bg-white/10;
+    @apply border-b backdrop-blur-md transition-colors;
+    background-color: var(--navbar-bg);
+    border-color: var(--navbar-border);
+  }
+
+  /* High-contrast divider wrapper used next to the theme switch */
+  .menu-divider {
+    @apply ml-2 hidden items-center border-l pl-4 md:inline-flex;
+    border-color: var(--navbar-divider);
+  }
+}
+
+/* Fallback when backdrop-filter is unsupported */
+@supports not (backdrop-filter: blur(1px)) {
+  .navbar-glass {
+    @apply transition-colors;
+    background-color: color-mix(in oklab, var(--navbar-bg), white 30%);
   }
 }
 

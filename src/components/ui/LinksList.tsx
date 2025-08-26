@@ -13,8 +13,9 @@ export function LinksList({
   onClick,
   items = [
     { id: 'hero', label: 'Home' },
+    { id: 'about', label: 'About Me' },
     { id: 'data', label: 'Data & Analytics' },
-    { id: 'products', label: 'Products' },
+    { id: 'product', label: 'Products' },
     { id: 'people', label: 'People' },
 
     // { id: 'mission', label: 'Mission' },
