@@ -7,7 +7,7 @@ function toneToClasses(tone: Tone) {
     case 'data':
       return { bg: 'bg-surface-data', artText: 'text-data' };
     case 'product':
-      return { bg: 'bg-surface-1', artText: 'text-primary' }; // adjust if you have a product surface
+      return { bg: 'bg-surface-1', artText: 'text-health' }; // adjust if you have a product surface
     case 'people':
       return { bg: 'bg-surface-people', artText: 'text-people' };
     default:
@@ -63,7 +63,7 @@ export const SectionPanel: React.FC<SectionPanelProps> = React.memo(
       >
         <div
           className={[
-            'mx-auto max-w-7xl px-6 md:px-12',
+            'mx-auto max-w-7xl px-0 md:px-12',
             minHeightClassName,
           ].join(' ')}
         >
