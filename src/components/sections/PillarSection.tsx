@@ -1,52 +1,50 @@
-// src/components/sections/PillarsSection.tsx
-import { ArtSection } from '@/components/ui/ArtSection';
-import { StoryTextElement } from '@/components/ui/StoryTextElement';
-import { SubsectionBanner } from '@/components/ui/SubsectionBanner';
+import SectionPanel from '@/components/sections/SectionPanel';
+import ArtFigure from '@/components/ui/ArtFigure';
+import TextBlock from '@/components/ui/TextBlock';
 import { PILLARS } from '@/data/pillars';
 import { useShuffledSvgs } from '@/hooks/useShuffledSvgs';
 import type { PillarContent } from '@/types';
 import * as React from 'react';
-
-// align with SubsectionBanner’s accepted tones
-type BannerTone = 'data' | 'health' | 'people' | 'neutral';
-const mapPillarToBannerTone = (id: PillarContent['id']): BannerTone =>
-  id === 'product' ? 'health' : id; // map product → health, others pass through //TODO: update mapping
 
 export const PillarsSection: React.FC = () => {
   const svgs = useShuffledSvgs();
 
   return (
     <>
-      {PILLARS.map((p, i) => {
+      {PILLARS.map((p: PillarContent, i) => {
         const Svg = svgs[i % svgs.length];
-        const textSide: 'left' | 'right' = i % 2 === 0 ? 'right' : 'left';
-        const tone = mapPillarToBannerTone(p.id);
+        const textSide: 'left' | 'right' = i % 2 === 0 ? 'left' : 'right';
 
         return (
-          <SubsectionBanner
+          <SectionPanel
             key={p.id}
             id={p.id}
+            tone={p.id as 'data' | 'product' | 'people' | 'neutral'}
             textSide={textSide}
-            tone={tone}
             ariaLabel={p.title}
-            art={
-              <ArtSection
-                svg={Svg}
-                mobileRotateAndStretch
-                preserveAspectRatio="xMidYMid meet"
-                unsetWidthHeight
-                strokeWidth={`${1 + i * 2}px`}
+            // slots:
+            text={
+              <TextBlock
+                title={p.title}
+                subtitle={p.subtitle}
+                paragraph={p.paragraph}
+                bullets={p.bullets}
+                badges={p.badges}
+                variant="soft"
+                align="left"
+                maxWidthClassName="max-w-prose"
               />
             }
-          >
-            <StoryTextElement
-              title={p.title}
-              subtitle={p.subtitle}
-              paragraph={p.paragraph}
-              bullets={p.bullets}
-              badges={p.badges}
-            />
-          </SubsectionBanner>
+            art={
+              <ArtFigure
+                svg={Svg}
+                fit="contain"
+                rotateMobile={false}
+                decorative
+                className="h-full w-auto"
+              />
+            }
+          />
         );
       })}
     </>
