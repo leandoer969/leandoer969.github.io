@@ -339,7 +339,7 @@
   }
 }
 
-@media (orientation: landscape) and (max-height: 480px) {
+@media (orientation: landscape) and (max-height: 520px) {
   .ls-compact\:grid-cols-1 {
     grid-template-columns: 1fr !important;
   }
@@ -360,6 +360,18 @@
   .ls-compact\:rotate-90 {
     transform: rotate(90deg) !important;
     transform-origin: center !important;
+  }
+
+  .ls-compact\:h-full {
+    height: 100% !important;
+  }
+
+  .ls-compact\:md-block {
+    display: block !important;
+  }
+
+  .ls-compact\:no-rotate {
+    transform: none !important;
   }
 }
 
