@@ -61,9 +61,14 @@ export const SectionPanel: React.FC<SectionPanelProps> = React.memo(
         ].join(' ')}
         data-section={id || undefined}
       >
-        <div className="mx-auto max-w-7xl px-6 py-10 md:px-12 md:py-16">
+        <div
+          className={[
+            'mx-auto max-w-7xl px-6 md:px-12',
+            minHeightClassName,
+          ].join(' ')}
+        >
           {/* Two columns on md+, stacked on mobile; columns must stretch equally */}
-          <div className="ls-compact:grid-cols-1 grid items-stretch gap-8 md:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
+          <div className="ls-compact:grid-cols-1 grid min-h-full items-stretch gap-8 md:[grid-template-columns:minmax(0,1fr)_minmax(0,1fr)]">
             {/* TEXT column: vertically centered when spare height; text can grow section */}
             <div className={['order-1 grid min-h-0', textOrder].join(' ')}>
               <div className="my-auto w-full">{text}</div>
