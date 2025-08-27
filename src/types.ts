@@ -31,8 +31,7 @@ export type PillarContent = {
   id: 'data' | 'product' | 'people';
   title: string;
   subtitle?: string;
-  paragraph?: string;
+  paragraph?: string | React.ReactNode | Array<string | React.ReactNode>;
   bullets?: string[];
   badges?: string[];
-  tone?: Tone;
 };
