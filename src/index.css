@@ -356,6 +356,11 @@
   .ls-compact\:gap-3 {
     gap: 0.75rem !important;
   }
+
+  .ls-compact\:rotate-90 {
+    transform: rotate(90deg) !important;
+    transform-origin: center !important;
+  }
 }
 
 /* Reduced motion: disable/soften entrances */
