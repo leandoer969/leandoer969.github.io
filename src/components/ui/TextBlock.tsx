@@ -32,7 +32,7 @@ export const TextBlock: React.FC<TextBlockProps> = React.memo(
         ? ''
         : variant === 'solid'
           ? 'rounded-2xl bg-surface-1 p-6 shadow-sm'
-          : 'rounded-2xl bg-white/60 p-6 shadow-sm backdrop-blur-md dark:bg-black/30';
+          : 'card-glass p-4 sm:p-6';
 
     const renderParagraph = (p: TextBlockProps['paragraph']) => {
       if (!p) return null;
