@@ -156,6 +156,12 @@
     @apply ml-2 hidden items-center border-l pl-4 md:inline-flex;
     border-color: var(--navbar-divider);
   }
+
+  .card-glass {
+    @apply rounded-2xl border shadow-sm backdrop-blur-md;
+    background-color: var(--navbar-bg);
+    border-color: var(--navbar-border);
+  }
 }
 
 /* Fallback when backdrop-filter is unsupported */
