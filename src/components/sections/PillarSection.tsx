@@ -39,7 +39,7 @@ export const PillarsSection: React.FC = () => {
               <ArtFigure
                 svg={Svg}
                 fit="contain"
-                rotateMobile={false}
+                rotateMobile={true}
                 decorative
                 className="h-full w-auto"
               />
