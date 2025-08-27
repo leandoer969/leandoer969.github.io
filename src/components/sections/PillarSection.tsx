@@ -30,7 +30,7 @@ export const PillarsSection: React.FC = () => {
                 paragraph={p.paragraph}
                 bullets={p.bullets}
                 badges={p.badges}
-                variant="soft"
+                variant="solid"
                 align="left"
                 maxWidthClassName="max-w-prose"
               />

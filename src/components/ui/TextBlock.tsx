@@ -31,8 +31,8 @@ export const TextBlock: React.FC<TextBlockProps> = React.memo(
       variant === 'plain'
         ? ''
         : variant === 'solid'
-          ? 'rounded-2xl bg-surface-1 p-6 shadow-sm'
-          : 'card-glass p-4 sm:p-6';
+          ? 'm-4 sm:m-6 md:m-0 rounded-2xl bg-bg border p-6 shadow-sm'
+          : 'm-4 sm:m-6 md:m-0 card-glass p-4 sm:p-6'; /* mobile margins so card never touches edges */
 
     const renderParagraph = (p: TextBlockProps['paragraph']) => {
       if (!p) return null;
