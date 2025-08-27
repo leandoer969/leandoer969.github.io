@@ -316,6 +316,40 @@
       1.25rem + env(safe-area-inset-bottom, 0px)
     ); /* ~20px + inset */
   }
+
+  /* --- Safe text flow helpers --- */
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+  .break-words {
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+  .hyphens-auto {
+    hyphens: auto;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 480px) {
+  .ls-compact\:grid-cols-1 {
+    grid-template-columns: 1fr !important;
+  }
+  .ls-compact\:h-auto {
+    height: auto !important;
+  }
+  .ls-compact\:p-3 {
+    padding: 0.75rem !important;
+  }
+  .ls-compact\:text-sm {
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+  }
+  .ls-compact\:gap-3 {
+    gap: 0.75rem !important;
+  }
 }
 
 /* Reduced motion: disable/soften entrances */
