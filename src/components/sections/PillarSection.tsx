@@ -30,7 +30,7 @@ export const PillarsSection: React.FC = () => {
                 paragraph={p.paragraph}
                 bullets={p.bullets}
                 badges={p.badges}
-                variant="solid"
+                variant="soft"
                 align="left"
                 maxWidthClassName="max-w-prose"
               />
@@ -41,7 +41,8 @@ export const PillarsSection: React.FC = () => {
                 fit="contain"
                 rotateMobile={true}
                 decorative
-                className="h-full w-auto"
+                wrapperClassName="max-h-[50svh] md:max-h-none"
+                className="ls-compact:rotate-90 h-full w-auto"
               />
             }
           />
