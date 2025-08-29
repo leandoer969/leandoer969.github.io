@@ -8,7 +8,7 @@
   --font-display: Montserrat, var(--font-sans);
 
   /* Surfaces */
-  --color-bg: #fffffc;
+  --color-bg: #f8fafb;
   --color-surface-1: #f3f6f8;
   --color-surface-health: #e8faf6;
   --color-surface-data: #eef0ff;
@@ -19,27 +19,26 @@
   --color-muted: #475569;
 
   /* Accents */
-  --color-primary: #4f46e5;
-  --color-data: #3b82f6;
-  --color-health: #14b8a6;
-  --color-people: #c026d3;
+  --color-primary: #4f46e5; /* indigo */
+  --color-data: #3b82f6; /* blue */
+  --color-health: #14b8a6; /* mint/teal */
+  --color-people: #c026d3; /* orchid */
   --color-info: #0ea5e9;
   --color-success: #10b981;
   --color-warning: #f59e0b;
 
   --color-border: #e2e8f0;
 
-  /* Navbar frost vars */
-  --navbar-bg: rgba(255, 255, 255, 0.3);
-  --navbar-border: rgb(228, 228, 231);
+  --navbar-bg: rgba(255, 255, 255, 0.3); /* frosted white */
+  --navbar-border: rgb(228, 228, 231); /* zinc-200 */
   --navbar-divider: rgb(212, 212, 216);
 
-  /* Type scale */
-  --text-hero: clamp(2.25rem, 6vw, 3.5rem);
-  --text-h1: clamp(2rem, 3.5vw, 3rem);
-  --text-h2: clamp(1.5rem, 2.5vw, 2.25rem);
-  --text-h3: clamp(1.25rem, 2vw, 1.5rem);
-  --text-body: clamp(1rem, 1.2vw, 1.125rem);
+  /* Type scale (fluid) */
+  --text-hero: clamp(2.25rem, 6vw, 3.5rem); /* ~36–56px */
+  --text-h1: clamp(2rem, 3.5vw, 3rem); /* ~32–48px */
+  --text-h2: clamp(1.5rem, 2.5vw, 2.25rem); /* ~24–36px */
+  --text-h3: clamp(1.25rem, 2vw, 1.5rem); /* ~20–24px */
+  --text-body: clamp(1rem, 1.2vw, 1.125rem); /* ~16–18px */
   --text-small: 0.9375rem;
 
   /* Rhythm */
@@ -49,10 +48,10 @@
   --measure: 65ch;
 
   /* Layout helpers */
-  --nav-h: 4rem;
+  --nav-h: 4rem; /* used by scroll-mt-nav */
 }
 
-/* 2.5) Follow system only if no manual class is set */
+/* 2.5) Follow system *only if* no manual class is set */
 @media (prefers-color-scheme: dark) {
   :root:not(.dark):not(.light) {
     --color-bg: #0b0c10;
@@ -73,6 +72,7 @@
     --color-warning: #fbbf24;
 
     --color-border: #243141;
+
     --navbar-bg: rgba(0, 0, 0, 0.3);
     --navbar-border: rgb(63, 63, 70);
     --navbar-divider: rgb(82, 82, 91);
@@ -98,6 +98,7 @@
   --color-warning: #fbbf24;
 
   --color-border: #243141;
+
   --navbar-bg: rgba(0, 0, 0, 0.3);
   --navbar-border: rgb(63, 63, 70);
   --navbar-divider: rgb(82, 82, 91);
@@ -135,6 +136,7 @@
     font-family: var(--font-display);
   }
 
+  /* Global outline (we'll use rings on interactive elements) */
   :focus-visible {
     outline: 2px dashed var(--color-primary);
     outline-offset: 2px;
@@ -148,14 +150,11 @@
     background-color: var(--navbar-bg);
     border-color: var(--navbar-border);
   }
+
+  /* High-contrast divider wrapper used next to the theme switch */
   .menu-divider {
     @apply ml-2 hidden items-center border-l pl-4 md:inline-flex;
     border-color: var(--navbar-divider);
-  }
-  .card-glass {
-    @apply rounded-2xl border shadow-sm backdrop-blur-md;
-    background-color: var(--navbar-bg);
-    border-color: var(--navbar-border);
   }
 
   /* Page grid shell */
@@ -168,9 +167,9 @@
       [full-end];
   }
 
-  /* Section layout w container queries */
+  /* Section root and parts */
   .section {
-    grid-column: content;
+    grid-column: full;
     container-type: inline-size;
     min-block-size: var(--section-min, 75svh);
   }
@@ -214,6 +213,7 @@
     max-height: none;
   }
 
+  /* Stacked when section is narrow */
   @container (max-width: 768px) {
     .section__grid {
       grid-template-columns: 1fr;
@@ -230,62 +230,154 @@
       height: auto;
       max-height: var(--visual-cap, 50dvh);
     }
-    .section--fullbleed-on-stack .section__visualBox {
-      grid-column: full;
-    }
     .section--rotate-on-stack .section__visualBox {
       transform: rotate(90deg);
     }
   }
+
+  /* Optional tiny landscape cap adjustment */
+  @media (orientation: landscape) and (max-height: 520px) {
+    .section {
+      --visual-cap: 45dvh;
+    }
+  }
+
+  /* Glass card utility for translucent panels */
+  .card-glass {
+    @apply ring-[color-mix(in oklab,var(--color-border)60%,transparent)] bg-[color-mix(in oklab,var(--color-surface-1)40%,transparent)] rounded-lg ring-1 backdrop-blur-md;
+  }
 }
 
-/* 7) Utilities */
+/* Fallback when backdrop-filter is unsupported */
+@supports not (backdrop-filter: blur(1px)) {
+  .navbar-glass {
+    @apply transition-colors;
+    background-color: color-mix(in oklab, var(--navbar-bg), white 30%);
+  }
+}
+
+/* 7) Utilities: fonts, colors, type, rhythm, helpers */
 @layer utilities {
+  /* Font families */
   .font-display {
     font-family: var(--font-display);
   }
+
+  /* Text colors mapped to tokens */
   .text-ink {
     color: var(--color-ink);
   }
   .text-muted {
     color: var(--color-muted);
   }
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .text-data {
+    color: var(--color-data);
+  }
+  .text-health {
+    color: var(--color-health);
+  }
+  .text-products {
+    color: var(--color-health);
+  }
+  .text-people {
+    color: var(--color-people);
+  }
+  .text-info {
+    color: var(--color-info);
+  }
+  .text-success {
+    color: var(--color-success);
+  }
+  .text-warning {
+    color: var(--color-warning);
+  }
+
+  /* Background colors mapped to surfaces */
   .bg-bg {
     background-color: var(--color-bg);
   }
   .bg-surface-1 {
     background-color: var(--color-surface-1);
   }
-  .bg-surface-data {
-    background-color: var(--color-surface-data);
-  }
   .bg-surface-health {
     background-color: var(--color-surface-health);
+  }
+  .bg-surface-data {
+    background-color: var(--color-surface-data);
   }
   .bg-surface-people {
     background-color: var(--color-surface-people);
   }
+
+  /* Borders */
   .border-default {
     border-color: var(--color-border);
+  }
+
+  /* Type scale */
+  .text-hero {
+    font-size: var(--text-hero);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.01em;
+  }
+  .text-h1 {
+    font-size: var(--text-h1);
+    line-height: var(--leading-head);
+    letter-spacing: -0.005em;
+  }
+  .text-h2 {
+    font-size: var(--text-h2);
+    line-height: var(--leading-head);
+  }
+  .text-h3 {
+    font-size: var(--text-h3);
+    line-height: 1.3;
+  }
+  .text-body {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+  }
+  .text-small {
+    font-size: var(--text-small);
+    line-height: 1.5;
+  }
+
+  /* Measure & vertical rhythm */
+  .measure {
+    max-width: var(--measure);
+  }
+  .stack-s > * + * {
+    margin-top: 0.5rem;
+  }
+  .stack-m > * + * {
+    margin-top: 0.75rem;
+  }
+  .stack-l > * + * {
+    margin-top: 1rem;
+  }
+
+  /* Reusable focus ring for interactive elements */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)];
+  }
+
+  /* Headline balance + anchor offset */
+  .text-balance {
+    text-wrap: balance;
   }
   .scroll-mt-nav {
     scroll-margin-top: calc(var(--nav-h, 4rem));
   }
-  .text-balance {
-    text-wrap: balance;
-  }
-  .text-pretty {
-    text-wrap: pretty;
-  }
-  .break-words {
-    overflow-wrap: break-word;
-    word-break: normal;
-  }
-  .hyphens-auto {
-    hyphens: auto;
+
+  /* Optional: drive stroke width by CSS var if you like */
+  .stroke-var * {
+    stroke-width: var(--line-w, 2px);
   }
 
-  /* In-view animations */
+  /* In-view reveal animations */
   .reveal {
     opacity: 0;
     transform: translateY(8px);
@@ -297,6 +389,7 @@
     opacity: 1;
     transform: none;
   }
+
   .reveal-x {
     opacity: 0;
     transform: translateX(var(--reveal-x, 8px));
@@ -309,11 +402,13 @@
     transform: none;
   }
   .pb-safe {
-    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(
+      1.25rem + env(safe-area-inset-bottom, 0px)
+    ); /* ~20px + inset */
   }
 }
 
-/* Reduced motion */
+/* Reduced motion: disable/soften entrances */
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   .reveal-x {
