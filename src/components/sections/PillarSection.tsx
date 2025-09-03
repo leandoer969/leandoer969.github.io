@@ -1,10 +1,23 @@
-import SectionPanel from '@/components/sections/SectionPanel';
+import Section from '@/components/sections/Section';
 import ArtFigure from '@/components/ui/ArtFigure';
 import TextBlock from '@/components/ui/TextBlock';
 import { PILLARS } from '@/data/pillars';
 import { useShuffledSvgs } from '@/hooks/useShuffledSvgs';
 import type { PillarContent } from '@/types';
 import * as React from 'react';
+
+const toneToBg: Record<'data' | 'product' | 'people', string> = {
+  data: 'bg-surface-data',
+  product: 'bg-surface-product',
+  people: 'bg-surface-people',
+};
+
+// choose the text color you want the art to inherit
+const toneToArtText: Record<'data' | 'product' | 'people', string> = {
+  data: 'text-data',
+  product: 'text-product', // or a dedicated product tone if you add one
+  people: 'text-people',
+};
 
 export const PillarsSection: React.FC = () => {
   const svgs = useShuffledSvgs();
@@ -13,16 +26,16 @@ export const PillarsSection: React.FC = () => {
     <>
       {PILLARS.map((p: PillarContent, i) => {
         const Svg = svgs[i % svgs.length];
-        const textSide: 'left' | 'right' = i % 2 === 0 ? 'left' : 'right';
+        const align = (i % 2 === 0 ? 'right' : 'left') as 'left' | 'right';
+        const artTone = toneToArtText[p.id];
 
         return (
-          <SectionPanel
+          <Section
             key={p.id}
             id={p.id}
-            tone={p.id as 'data' | 'product' | 'people' | 'neutral'}
-            textSide={textSide}
             ariaLabel={p.title}
-            // slots:
+            align={align}
+            bgClass={toneToBg[p.id]}
             text={
               <TextBlock
                 title={p.title}
@@ -31,19 +44,16 @@ export const PillarsSection: React.FC = () => {
                 bullets={p.bullets}
                 badges={p.badges}
                 variant="soft"
-                align="left"
                 maxWidthClassName="max-w-prose"
               />
             }
-            art={
-              <ArtFigure
-                svg={Svg}
-                fit="contain"
-                rotateMobile={true}
-                decorative
-                wrapperClassName="max-h-[50svh] md:max-h-none"
-                className="ls-compact:rotate-90 h-full w-auto"
-              />
+            visual={
+              <div className={artTone}>
+                <ArtFigure
+                  svg={Svg}
+                  className="h-auto w-full md:h-full md:w-auto"
+                />
+              </div>
             }
           />
         );
