@@ -7,24 +7,22 @@ import { PillarsSection } from '@/components/sections/PillarSection';
 import UnderConstruction from '@/pages/UnderConstruction';
 import React, { Suspense } from 'react';
 import './App.css';
+
 // Lazy-load the background shapes to defer non-critical paint
 const BackgroundShapes = React.lazy(
   () => import('./components/visual/BackgroundShapes')
 );
 
 function App() {
-  // toggle placeholder based on the VITE_WIP flag
   const isWip = import.meta.env.VITE_WIP === 'true';
-
-  if (isWip) {
-    return <UnderConstruction />;
-  }
+  if (isWip) return <UnderConstruction />;
 
   return (
     <div className="flex min-h-screen flex-col">
       {/* Site Header */}
       <Navbar />
-      {/* parallax background shapes (deferred) */}
+
+      {/* Parallax background shapes (deferred, overlay) */}
       <Suspense fallback={null}>
         <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
           <BackgroundShapes
@@ -34,11 +32,25 @@ function App() {
           />
         </div>
       </Suspense>
-      <Hero />
-      <main id="pillars">
-        <AboutSection />
-        <PillarsSection />
-      </main>
+
+      {/* Page grid shell: all sections must be direct children */}
+      <div className="page flex-1">
+        {/* HERO — full-bleed section */}
+        <section className="section" aria-label="Hero">
+          <Hero />
+        </section>
+
+        {/* ABOUT — full-bleed section */}
+        <section className="section" id="about" aria-label="About">
+          <AboutSection />
+        </section>
+
+        {/* PILLARS — full-bleed section */}
+        <section className="section" id="pillars" aria-label="Pillars">
+          <PillarsSection />
+        </section>
+      </div>
+
       <Footer />
     </div>
   );
