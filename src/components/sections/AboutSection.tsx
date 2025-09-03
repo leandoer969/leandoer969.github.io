@@ -1,16 +1,16 @@
 // src/sections/AboutSection.tsx
-import { StoryTextElement } from '@/components/ui/StoryTextElement.tsx';
+import Section from '@/components/sections/Section';
+import TextBlock from '@/components/ui/TextBlock';
 import React from 'react';
 
 const AboutSection: React.FC = () => {
   return (
-    <section
+    <Section
       id="about"
-      className="bg-surface-1 w-full px-6 py-10 sm:px-6 md:px-12 md:py-16 lg:px-8"
-    >
-      {/* Centered box */}
-      <div className="mx-auto max-w-4xl sm:p-8">
-        <StoryTextElement
+      ariaLabel="About me"
+      bgClass="bg-surface-1"
+      text={
+        <TextBlock
           title="About me"
           paragraph={
             <>
@@ -47,10 +47,10 @@ const AboutSection: React.FC = () => {
               </p>
             </>
           }
+          // no visual
         />
-      </div>
-    </section>
+      }
+    />
   );
 };
-
 export default AboutSection;
